@@ -1,5 +1,10 @@
 package com.mtvs.backend.user;
 
+import com.mtvs.backend.interest.domain.Interest;
+import com.mtvs.backend.interest.domain.InterestCategory;
+import com.mtvs.backend.interest.dto.InterestDTO;
+import com.mtvs.backend.interest.service.InterestCategoryServiceImpl;
+import com.mtvs.backend.interest.service.InterestDTOServiceImpl;
 import com.mtvs.backend.user.domain.User;
 import com.mtvs.backend.user.dto.UserDTO;
 import com.mtvs.backend.user.repository.UserRepository;
@@ -14,6 +19,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @SpringBootTest
@@ -27,6 +33,11 @@ public class UserTest {
 
     @PersistenceContext
     private EntityManager entityManager;
+    @Autowired
+    private InterestCategoryServiceImpl interestCategoryServiceImpl;
+
+    @Autowired
+    private InterestDTOServiceImpl interestDTOService;
 
     @BeforeEach
     void beforeEach() {
@@ -49,6 +60,8 @@ public class UserTest {
 
         Assertions.assertThat(userRepository.count()).isEqualTo(3);
     }
+    
+
 
     @DisplayName("유저 조회 테스트")
     @Test
@@ -99,7 +112,8 @@ public class UserTest {
         userServiceImpl.registerUser(new UserDTO(user3.getUserId(), user3.getUserPassword(), user3.getUserNickname(), user3.getBirthday(), user3.getGender()));
 
         UserDTO newUserInfo = new UserDTO("user1", "1234", "user11", "2002-11-11", "woman");
-        userServiceImpl.updateUser("user1", newUserInfo);
+        User foundUser1 = userServiceImpl.getUserByUserId("user1");
+        userServiceImpl.updateUser(foundUser1.getId(), newUserInfo);
 
         User foundUser = userServiceImpl.getUserByUserId("user1");
         Assertions.assertThat(foundUser.getUserNickname()).isEqualTo("user11");
