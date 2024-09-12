@@ -3,10 +3,14 @@ package com.mtvs.backend.furniture.groundfurniture;
 import com.mtvs.backend.furniture.groundfurniture.domain.GroundFurniture;
 import com.mtvs.backend.furniture.groundfurniture.dto.GroundFurnitureRegisterDTO;
 import com.mtvs.backend.furniture.groundfurniture.dto.GroundFurnitureUpdateDTO;
+import com.mtvs.backend.furniture.groundfurniture.repository.GroundFurnitureRepository;
 import com.mtvs.backend.furniture.groundfurniture.service.GroundFurnitureServiceImpl;
 import com.mtvs.backend.user.dto.UserDTO;
 import com.mtvs.backend.user.service.UserServiceImpl;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
 import org.assertj.core.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +27,19 @@ public class GroundFurnitureTest {
 
     @Autowired
     private GroundFurnitureServiceImpl groundFurnitureServiceImpl;
+
+    @Autowired
+    private GroundFurnitureRepository groundFurnitureRepository;
+
+    @PersistenceContext
+    private EntityManager entityManager;
+
+    @BeforeEach
+    void beforeEach() {
+        groundFurnitureRepository.deleteAll();
+        entityManager.createNativeQuery("ALTER TABLE ground_furniture AUTO_INCREMENT = 1").executeUpdate();
+        entityManager.flush();
+    }
 
     @DisplayName("가구 등록 테스트")
     @Test
@@ -75,13 +92,11 @@ public class GroundFurnitureTest {
 
         // 임의의 값으로 GroundFurnitureRegisterDTO 객체 10개 생성
         GroundFurnitureRegisterDTO furniture1 = new GroundFurnitureRegisterDTO(100, 200, true, 10, 20, false, "Living Room", "Sofa", "user1");
-        GroundFurnitureRegisterDTO furniture2 = new GroundFurnitureRegisterDTO(150, 250, false, 30, 40, true, "Bedroom", "Bed", "user1");
-        GroundFurnitureRegisterDTO furniture3 = new GroundFurnitureRegisterDTO(120, 220, true, 15, 25, true, "Office", "Desk", "user1");
         GroundFurnitureRegisterDTO furniture4 = new GroundFurnitureRegisterDTO(110, 210, false, 20, 30, false, "Kitchen", "Table", "user2");
 
         groundFurnitureServiceImpl.registerGroundFurniture(furniture1);
-        groundFurnitureServiceImpl.registerGroundFurniture(furniture2);
-        groundFurnitureServiceImpl.registerGroundFurniture(furniture3);
+//        groundFurnitureServiceImpl.registerGroundFurniture(furniture2);
+//        groundFurnitureServiceImpl.registerGroundFurniture(furniture3);
         groundFurnitureServiceImpl.registerGroundFurniture(furniture4);
 
         Long tmp = groundFurnitureServiceImpl.getGroundFurnitureByName("Sofa").getId();

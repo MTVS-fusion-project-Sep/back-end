@@ -34,8 +34,7 @@ public class GroundFurnitureServiceImpl implements GroundFurnitureService {
         gf.setFurniCategory(gfrDTO.getFurniCategory());
         gf.setFurniName(gfrDTO.getFurniName());
         gf.setUser(foundUser);
-        repository.save(gf);
-        return gf;
+        return repository.save(gf);
     }
 
     @Override

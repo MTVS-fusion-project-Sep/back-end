@@ -1,6 +1,7 @@
 package com.mtvs.backend.furniture.groundfurniture.dto;
 
 import lombok.Getter;
+import lombok.Setter;
 
 @Getter
 public class GroundFurnitureRegisterDTO {
@@ -14,6 +15,9 @@ public class GroundFurnitureRegisterDTO {
     private String furniCategory;
     private String furniName;
     private String userId;
+
+    public GroundFurnitureRegisterDTO() {
+    }
 
     public GroundFurnitureRegisterDTO(int furniSizeX, int furniSizeZ, boolean onPlace, int furniCurrentX, int furniCurrentZ, boolean furniRotate, String furniCategory, String furniName, String userId) {
         this.furniSizeX = furniSizeX;

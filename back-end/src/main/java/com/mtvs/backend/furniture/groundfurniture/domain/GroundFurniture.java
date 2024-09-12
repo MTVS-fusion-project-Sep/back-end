@@ -6,7 +6,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 @Entity
-@Table(name="furniture")
+@Table(name="ground_furniture")
 @Getter @Setter
 public class GroundFurniture {
 
@@ -20,7 +20,7 @@ public class GroundFurniture {
     @Column(name="furni_size_z")
     private int furniSizeZ;
 
-    @Column(name="on_place")
+    @Column(name="furni_on_place")
     private boolean onPlace;
 
     @Column(name="furni_current_x")
