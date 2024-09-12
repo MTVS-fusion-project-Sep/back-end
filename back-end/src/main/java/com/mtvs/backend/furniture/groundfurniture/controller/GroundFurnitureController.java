@@ -21,25 +21,25 @@ public class GroundFurnitureController {
         this.groundFurnitureServiceImpl = groundFurnitureServiceImpl;
     }
 
-    @GetMapping("/{groundFurnitureId}")
+    @GetMapping("/furnitureId/{groundFurnitureId}")
     ResponseEntity<GroundFurniture> getGroundFurnitureById(@PathVariable("groundFurnitureId") long gfi) {
         GroundFurniture foundGroundFurniture = groundFurnitureServiceImpl.getGroundFurnitureById(gfi);
         return ResponseEntity.ok(foundGroundFurniture);
     }
 
-    @GetMapping("/{groundFurnitureName}")
+    @GetMapping("/furnitureName/{groundFurnitureName}")
     ResponseEntity<GroundFurniture> getGroundFurnitureByName(@PathVariable("groundFurnitureName") String gfn) {
         GroundFurniture foundGroundFurniture = groundFurnitureServiceImpl.getGroundFurnitureByName(gfn);
         return ResponseEntity.ok(foundGroundFurniture);
     }
 
-    @GetMapping("/{userId}")
+    @GetMapping("/user/{userId}")
     ResponseEntity<List<GroundFurniture>> getGroundFurnitureListByUserId(@PathVariable("userId") String userId) {
         List<GroundFurniture> foundGroundFurnitureList = groundFurnitureServiceImpl.getGroundFurnitureListByUserId(userId);
         return ResponseEntity.ok(foundGroundFurnitureList);
     }
 
-    @GetMapping("/{groundFurnitureCategory}")
+    @GetMapping("/furnitureCategory/{groundFurnitureCategory}")
     ResponseEntity<List<GroundFurniture>> getGroundFurnitureListByCategory(@PathVariable("groundFurnitureCategory") String category) {
         List<GroundFurniture> foundGroundFurnitureList = groundFurnitureServiceImpl.getGroundFurnitureListByCategory(category);
         return ResponseEntity.ok(foundGroundFurnitureList);
@@ -61,13 +61,13 @@ public class GroundFurnitureController {
         return ResponseEntity.ok(groundFurnitureServiceImpl.updateGroundFurniture(gfrDTO));
     }
 
-    @DeleteMapping("/{groundFurnitureId}")
+    @DeleteMapping("/furnitureId/{groundFurnitureId}")
     ResponseEntity<?> deleteGroundFurnitureById(@PathVariable("groundFurnitureId") long gfi) {
        groundFurnitureServiceImpl.deleteGroundFurnitureById(gfi);
        return ResponseEntity.noContent().build();
     }
 
-    @DeleteMapping("/{groundFurnitureName}")
+    @DeleteMapping("/furnitureName/{groundFurnitureName}")
     ResponseEntity<?> deleteGroundFurnitureByName(@PathVariable("groundFurnitureName") String gfn) {
         groundFurnitureServiceImpl.deleteGroundFurnitureByName(gfn);
         return ResponseEntity.noContent().build();
