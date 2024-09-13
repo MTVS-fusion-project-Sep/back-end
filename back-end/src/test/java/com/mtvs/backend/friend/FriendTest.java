@@ -1,7 +1,7 @@
 package com.mtvs.backend.friend;
 
-import com.mtvs.backend.Friend.domain.Friendship;
-import com.mtvs.backend.Friend.service.FriendshipServiceImpl;
+import com.mtvs.backend.friend.domain.Friendship;
+import com.mtvs.backend.friend.service.FriendshipServiceImpl;
 import com.mtvs.backend.user.domain.User;
 import com.mtvs.backend.user.dto.UserDTO;
 import com.mtvs.backend.user.repository.UserRepository;
