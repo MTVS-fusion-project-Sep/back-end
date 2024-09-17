@@ -1,4 +1,4 @@
-package com.mtvs.backend.Friend.domain;
+package com.mtvs.backend.friend.domain;
 
 import com.mtvs.backend.user.domain.User;
 import jakarta.persistence.*;

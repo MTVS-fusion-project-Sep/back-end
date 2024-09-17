@@ -1,6 +1,6 @@
 package com.mtvs.backend.Friend.controller;
 
-import com.mtvs.backend.Friend.service.FriendshipService;
+import com.mtvs.backend.friend.service.FriendshipService;
 import com.mtvs.backend.user.domain.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
