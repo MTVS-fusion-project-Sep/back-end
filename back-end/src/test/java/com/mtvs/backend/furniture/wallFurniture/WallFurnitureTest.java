@@ -41,17 +41,17 @@ public class WallFurnitureTest {
 
     @BeforeEach
     void beforeEach() {
-//        userRepository.deleteAll();
-//        wallFurnitureRepository.deleteAll();
-//
-//        em.createNativeQuery("ALTER TABLE user AUTO_INCREMENT = 1").executeUpdate();
-//        em.createNativeQuery("ALTER TABLE wall_furniture AUTO_INCREMENT = 1").executeUpdate();
-//        em.flush();
+        wallFurnitureRepository.deleteAll();
+        userRepository.deleteAll();
+
+        em.createNativeQuery("ALTER TABLE user AUTO_INCREMENT = 1").executeUpdate();
+        em.createNativeQuery("ALTER TABLE wall_furniture AUTO_INCREMENT = 1").executeUpdate();
+        em.flush();
 
         if(userRepository.count() <= 0){
-            userServiceImpl.registerUser(new UserDTO("user1", "1234", "user1", "2001-11-23", "man"));
-            userServiceImpl.registerUser(new UserDTO("user2", "1234", "user2", "2002-11-23", "woman"));
-            userServiceImpl.registerUser(new UserDTO("user3", "1234", "user3", "2003-11-23", "man"));
+            userServiceImpl.registerUser(new User("user1", "1234", "user1", "2001-11-23", "man"));
+            userServiceImpl.registerUser(new User("user2", "1234", "user2", "2001-11-23", "woman"));
+            userServiceImpl.registerUser(new User("user3", "1234", "user3", "2001-11-23", "man"));
         }
 
         if(wallFurnitureRepository.count() <= 0){
