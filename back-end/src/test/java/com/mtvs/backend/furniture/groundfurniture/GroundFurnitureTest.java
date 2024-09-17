@@ -5,6 +5,7 @@ import com.mtvs.backend.furniture.groundfurniture.dto.GroundFurnitureRegisterDTO
 import com.mtvs.backend.furniture.groundfurniture.dto.GroundFurnitureUpdateDTO;
 import com.mtvs.backend.furniture.groundfurniture.repository.GroundFurnitureRepository;
 import com.mtvs.backend.furniture.groundfurniture.service.GroundFurnitureServiceImpl;
+import com.mtvs.backend.user.domain.User;
 import com.mtvs.backend.user.dto.UserDTO;
 import com.mtvs.backend.user.service.UserServiceImpl;
 import jakarta.persistence.EntityManager;
@@ -39,18 +40,12 @@ public class GroundFurnitureTest {
         groundFurnitureRepository.deleteAll();
         entityManager.createNativeQuery("ALTER TABLE ground_furniture AUTO_INCREMENT = 1").executeUpdate();
         entityManager.flush();
-    }
 
-    @DisplayName("가구 등록 테스트")
-    @Test
-    @Transactional
-    void registerFurnitureTest() {
-
-        userServiceImpl.registerUser(new UserDTO("user1", "1234", "user1", "2001-11-23", "man"));
-        userServiceImpl.registerUser(new UserDTO("user2", "1234", "user2", "2001-11-23", "man"));
-        userServiceImpl.registerUser(new UserDTO("user3", "1234", "user3", "2001-11-23", "man"));
-        userServiceImpl.registerUser(new UserDTO("user4", "1234", "user4", "2001-11-23", "man"));
-        userServiceImpl.registerUser(new UserDTO("user5", "1234", "user5", "2001-11-23", "man"));
+        userServiceImpl.registerUser(new User("user1", "1234", "user1", "2001-11-23", "man"));
+        userServiceImpl.registerUser(new User("user2", "1234", "user1", "2001-11-23", "woman"));
+        userServiceImpl.registerUser(new User("user3", "1234", "user1", "2001-11-23", "man"));
+        userServiceImpl.registerUser(new User("user4", "1234", "user1", "2001-11-23", "woman"));
+        userServiceImpl.registerUser(new User("user5", "1234", "user1", "2001-11-23", "man"));
 
         // 임의의 값으로 GroundFurnitureRegisterDTO 객체 10개 생성
         GroundFurnitureRegisterDTO furniture1 = new GroundFurnitureRegisterDTO(100, 200, true, 10, 20, false, "Living Room", "Sofa", "user1");
@@ -74,6 +69,12 @@ public class GroundFurnitureTest {
         groundFurnitureServiceImpl.registerGroundFurniture(furniture8);
         groundFurnitureServiceImpl.registerGroundFurniture(furniture9);
         groundFurnitureServiceImpl.registerGroundFurniture(furniture10);
+    }
+
+    @DisplayName("가구 등록 테스트")
+    @Test
+    @Transactional
+    void registerFurnitureTest() {
 
         List<GroundFurniture> allGroundFurniture = groundFurnitureServiceImpl.getAllGroundFurniture();
         List<GroundFurniture> groundFurnitureList_user1 = groundFurnitureServiceImpl.getGroundFurnitureListByUserId("user1");
@@ -86,19 +87,6 @@ public class GroundFurnitureTest {
     @Test
     @Transactional
     void updateFurnitureTest() {
-
-        userServiceImpl.registerUser(new UserDTO("user1", "1234", "user1", "2001-11-23", "man"));
-        userServiceImpl.registerUser(new UserDTO("user2", "1234", "user2", "2001-11-23", "man"));
-
-        // 임의의 값으로 GroundFurnitureRegisterDTO 객체 10개 생성
-        GroundFurnitureRegisterDTO furniture1 = new GroundFurnitureRegisterDTO(100, 200, true, 10, 20, false, "Living Room", "Sofa", "user1");
-        GroundFurnitureRegisterDTO furniture4 = new GroundFurnitureRegisterDTO(110, 210, false, 20, 30, false, "Kitchen", "Table", "user2");
-
-        groundFurnitureServiceImpl.registerGroundFurniture(furniture1);
-//        groundFurnitureServiceImpl.registerGroundFurniture(furniture2);
-//        groundFurnitureServiceImpl.registerGroundFurniture(furniture3);
-        groundFurnitureServiceImpl.registerGroundFurniture(furniture4);
-
         Long tmp = groundFurnitureServiceImpl.getGroundFurnitureByName("Sofa").getId();
 
         groundFurnitureServiceImpl.updateGroundFurniture(new GroundFurnitureUpdateDTO(tmp,200, 300, true, 20,30, false, "Bedroom", "Bed"));
@@ -110,19 +98,6 @@ public class GroundFurnitureTest {
     @Test
     @Transactional
     void deleteFurnitureTest() {
-        userServiceImpl.registerUser(new UserDTO("user1", "1234", "user1", "2001-11-23", "man"));
-        userServiceImpl.registerUser(new UserDTO("user2", "1234", "user2", "2001-11-23", "man"));
-
-        // 임의의 값으로 GroundFurnitureRegisterDTO 객체 10개 생성
-        GroundFurnitureRegisterDTO furniture1 = new GroundFurnitureRegisterDTO(100, 200, true, 10, 20, false, "Living Room", "Sofa", "user1");
-        GroundFurnitureRegisterDTO furniture2 = new GroundFurnitureRegisterDTO(150, 250, false, 30, 40, true, "Bedroom", "Bed", "user1");
-        GroundFurnitureRegisterDTO furniture3 = new GroundFurnitureRegisterDTO(120, 220, true, 15, 25, true, "Office", "Desk", "user1");
-        GroundFurnitureRegisterDTO furniture4 = new GroundFurnitureRegisterDTO(110, 210, false, 20, 30, false, "Kitchen", "Table", "user2");
-
-        groundFurnitureServiceImpl.registerGroundFurniture(furniture1);
-        groundFurnitureServiceImpl.registerGroundFurniture(furniture2);
-        groundFurnitureServiceImpl.registerGroundFurniture(furniture3);
-        groundFurnitureServiceImpl.registerGroundFurniture(furniture4);
 
         Long tmp = groundFurnitureServiceImpl.getGroundFurnitureByName("Sofa").getId();
 
@@ -130,7 +105,7 @@ public class GroundFurnitureTest {
 
         List<GroundFurniture> allGroundFurniture = groundFurnitureServiceImpl.getAllGroundFurniture();
 
-        Assertions.assertThat(allGroundFurniture.size()).isEqualTo(3);
+        Assertions.assertThat(allGroundFurniture.size()).isEqualTo(9);
         Assertions.assertThat(groundFurnitureServiceImpl.getGroundFurnitureById(tmp)).isNull();
     }
 
@@ -138,19 +113,6 @@ public class GroundFurnitureTest {
     @Test
     @Transactional
     void findFurnitureListTest() {
-        userServiceImpl.registerUser(new UserDTO("user1", "1234", "user1", "2001-11-23", "man"));
-        userServiceImpl.registerUser(new UserDTO("user2", "1234", "user2", "2001-11-23", "man"));
-
-        // 임의의 값으로 GroundFurnitureRegisterDTO 객체 10개 생성
-        GroundFurnitureRegisterDTO furniture1 = new GroundFurnitureRegisterDTO(100, 200, true, 10, 20, false, "Living Room", "Sofa", "user1");
-        GroundFurnitureRegisterDTO furniture2 = new GroundFurnitureRegisterDTO(150, 250, false, 30, 40, true, "Bedroom", "Bed", "user1");
-        GroundFurnitureRegisterDTO furniture3 = new GroundFurnitureRegisterDTO(120, 220, true, 15, 25, true, "Office", "Desk", "user1");
-        GroundFurnitureRegisterDTO furniture4 = new GroundFurnitureRegisterDTO(110, 210, false, 20, 30, false, "Kitchen", "Table", "user2");
-
-        groundFurnitureServiceImpl.registerGroundFurniture(furniture1);
-        groundFurnitureServiceImpl.registerGroundFurniture(furniture2);
-        groundFurnitureServiceImpl.registerGroundFurniture(furniture3);
-        groundFurnitureServiceImpl.registerGroundFurniture(furniture4);
 
         List<GroundFurniture> gfList1 = groundFurnitureServiceImpl.getGroundFurnitureListByUserId("user1");
 
