@@ -9,7 +9,7 @@ import com.mtvs.backend.user.repository.UserRepository;
 import java.util.List;
 
 public interface UserService{
-    void registerUser(UserDTO userDTO);
+    void registerUser(User user);
     void updateInterestList(String userId, List<InterestDTO> interestDTOList);
     User getUserByUserId(String userId);
     User getUserById(Long userId);

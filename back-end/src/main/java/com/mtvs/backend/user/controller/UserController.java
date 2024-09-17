@@ -8,6 +8,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/user")
 public class UserController {
@@ -20,16 +22,21 @@ public class UserController {
     }
 
     @PostMapping
-    public ResponseEntity<User> registerUser(@RequestBody User user) {
-        UserDTO userDTO = new UserDTO(user.getUserId(), user.getUserPassword(), user.getUserNickname(), user.getBirthday(), user.getGender());
-        userServiceImpl.registerUser(userDTO);
-        return ResponseEntity.status(HttpStatus.CREATED).body(user);
+    public ResponseEntity<User> registerUser(@RequestBody List<UserDTO> userDTO) {
+        User newUser = new User(userDTO.get(0).getUserId(), userDTO.get(0).getUserPassword(), userDTO.get(0).getUserNickname(), userDTO.get(0).getBirthday(), userDTO.get(0).getGender());
+        userServiceImpl.registerUser(newUser);
+        return ResponseEntity.status(HttpStatus.CREATED).body(newUser);
     }
 
     @GetMapping("/{userId}")
     public ResponseEntity<User> getUser(@PathVariable("userId") String userId){
         User foundUser = userServiceImpl.getUserByUserId(userId);
         return ResponseEntity.ok(foundUser);
+    }
+
+    @GetMapping("/temp")
+    public String getTempUser(){
+        return "success";
     }
 
     @PatchMapping
