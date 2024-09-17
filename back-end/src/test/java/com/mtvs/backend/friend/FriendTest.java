@@ -42,24 +42,28 @@ public class FriendTest {
         entityManager.createNativeQuery("ALTER TABLE user AUTO_INCREMENT = 1").executeUpdate();
         entityManager.createNativeQuery("ALTER TABLE friendship AUTO_INCREMENT = 1").executeUpdate();
         entityManager.flush();
+        if(userRepository.count() <= 0) {
+            User user1 = new User("user1", "1234", "user1", "2001-01-01", "man");
+            User user2 = new User("user2", "1234", "user2", "2001-02-02", "woman");
+            User user3 = new User("user3", "1234", "user3", "2001-03-03", "man");
+
+            userServiceImpl.registerUser(user1);
+            userServiceImpl.registerUser(user2);
+            userServiceImpl.registerUser(user3);
+        }
+
+        friendshipServiceImpl.sendFriendRequest(userServiceImpl.getUserByUserId("user1").getId(), userServiceImpl.getUserByUserId("user2").getId());
+        friendshipServiceImpl.sendFriendRequest(userServiceImpl.getUserByUserId("user2").getId(), userServiceImpl.getUserByUserId("user3").getId());
+        friendshipServiceImpl.sendFriendRequest(userServiceImpl.getUserByUserId("user3").getId(), userServiceImpl.getUserByUserId("user1").getId());
+        friendshipServiceImpl.sendFriendRequest(userServiceImpl.getUserByUserId("user2").getId(), userServiceImpl.getUserByUserId("user1").getId());
+
     }
 
     @DisplayName("친구 요청 테스트")
     @Test
     @Transactional
     void sendFriendRequestTest() {
-        User user1 = new User("user1", "1234", "user1", "2001-01-01", "man");
-        User user2 = new User("user2", "1234", "user2", "2001-02-02", "woman");
-        User user3 = new User("user3", "1234", "user3", "2001-03-03", "man");
 
-        userServiceImpl.registerUser(new UserDTO(user1.getUserId(), user1.getUserPassword(), user1.getUserNickname(), user1.getBirthday(), user1.getGender()));
-        userServiceImpl.registerUser(new UserDTO(user2.getUserId(), user2.getUserPassword(), user2.getUserNickname(), user2.getBirthday(), user2.getGender()));
-        userServiceImpl.registerUser(new UserDTO(user3.getUserId(), user3.getUserPassword(), user3.getUserNickname(), user3.getBirthday(), user3.getGender()));
-
-        friendshipServiceImpl.sendFriendRequest(userServiceImpl.getUserByUserId("user1").getId(), userServiceImpl.getUserByUserId("user2").getId());
-        friendshipServiceImpl.sendFriendRequest(userServiceImpl.getUserByUserId("user2").getId(), userServiceImpl.getUserByUserId("user3").getId());
-        friendshipServiceImpl.sendFriendRequest(userServiceImpl.getUserByUserId("user3").getId(), userServiceImpl.getUserByUserId("user1").getId());
-        friendshipServiceImpl.sendFriendRequest(userServiceImpl.getUserByUserId("user2").getId(), userServiceImpl.getUserByUserId("user1").getId());
 
         List<Friendship> allFriendship = friendshipServiceImpl.getAllFriendship(false);
         Assertions.assertThat(allFriendship.size()).isEqualTo(4);
@@ -69,26 +73,15 @@ public class FriendTest {
     @Test
     @Transactional
     void acceptFriendRequestTest() {
-        User user1 = new User("user1", "1234", "user1", "2001-01-01", "man");
-        User user2 = new User("user2", "1234", "user2", "2001-02-02", "woman");
-        User user3 = new User("user3", "1234", "user3", "2001-03-03", "man");
-
-        userServiceImpl.registerUser(new UserDTO(user1.getUserId(), user1.getUserPassword(), user1.getUserNickname(), user1.getBirthday(), user1.getGender()));
-        userServiceImpl.registerUser(new UserDTO(user2.getUserId(), user2.getUserPassword(), user2.getUserNickname(), user2.getBirthday(), user2.getGender()));
-        userServiceImpl.registerUser(new UserDTO(user3.getUserId(), user3.getUserPassword(), user3.getUserNickname(), user3.getBirthday(), user3.getGender()));
-
-        friendshipServiceImpl.sendFriendRequest(userServiceImpl.getUserByUserId("user1").getId(), userServiceImpl.getUserByUserId("user2").getId());
-        friendshipServiceImpl.sendFriendRequest(userServiceImpl.getUserByUserId("user2").getId(), userServiceImpl.getUserByUserId("user3").getId());
-        friendshipServiceImpl.sendFriendRequest(userServiceImpl.getUserByUserId("user3").getId(), userServiceImpl.getUserByUserId("user1").getId());
-        friendshipServiceImpl.sendFriendRequest(userServiceImpl.getUserByUserId("user2").getId(), userServiceImpl.getUserByUserId("user1").getId());
-
         List<Friendship> friendshipList = friendshipServiceImpl.getAllFriendship(false);
 
         for(Friendship f: friendshipList){
             friendshipServiceImpl.acceptFriendRequest(f.getId());
         }
 
-        List<User> friendList = friendshipServiceImpl.getFriends(1L);
+        User foundUser = userServiceImpl.getUserByUserId("user1");
+
+        List<User> friendList = friendshipServiceImpl.getFriends(foundUser.getId());
 
         Assertions.assertThat(friendList.size()).isEqualTo(2);
         Assertions.assertThat(friendList.get(0).getUserId()).isEqualTo("user3");
@@ -99,22 +92,12 @@ public class FriendTest {
     @Test
     @Transactional
     void rejectFriendRequestTest() {
-        User user1 = new User("user1", "1234", "user1", "2001-01-01", "man");
-        User user2 = new User("user2", "1234", "user2", "2001-02-02", "woman");
-        User user3 = new User("user3", "1234", "user3", "2001-03-03", "man");
+        long tmp_id = friendshipServiceImpl.getAllFriendship(false).get(0).getId();
 
-        userServiceImpl.registerUser(new UserDTO(user1.getUserId(), user1.getUserPassword(), user1.getUserNickname(), user1.getBirthday(), user1.getGender()));
-        userServiceImpl.registerUser(new UserDTO(user2.getUserId(), user2.getUserPassword(), user2.getUserNickname(), user2.getBirthday(), user2.getGender()));
-        userServiceImpl.registerUser(new UserDTO(user3.getUserId(), user3.getUserPassword(), user3.getUserNickname(), user3.getBirthday(), user3.getGender()));
+        friendshipServiceImpl.rejectFriendRequest(tmp_id);
+        User foundUser = userServiceImpl.getUserByUserId("user2");
 
-        friendshipServiceImpl.sendFriendRequest(userServiceImpl.getUserByUserId("user1").getId(), userServiceImpl.getUserByUserId("user2").getId());
-        friendshipServiceImpl.sendFriendRequest(userServiceImpl.getUserByUserId("user2").getId(), userServiceImpl.getUserByUserId("user3").getId());
-        friendshipServiceImpl.sendFriendRequest(userServiceImpl.getUserByUserId("user3").getId(), userServiceImpl.getUserByUserId("user1").getId());
-        friendshipServiceImpl.sendFriendRequest(userServiceImpl.getUserByUserId("user2").getId(), userServiceImpl.getUserByUserId("user1").getId());
-
-        friendshipServiceImpl.rejectFriendRequest(1L);
-
-        Assertions.assertThat(friendshipServiceImpl.getFriends(1L)).isEmpty();
+        Assertions.assertThat(friendshipServiceImpl.getFriends(foundUser.getId())).isEmpty();
         Assertions.assertThat(friendshipServiceImpl.getAllFriendship(false).size()).isEqualTo(3);
     }
 
@@ -122,19 +105,6 @@ public class FriendTest {
     @Test
     @Transactional
     void findFriendsTest() {
-        User user1 = new User("user1", "1234", "user1", "2001-01-01", "man");
-        User user2 = new User("user2", "1234", "user2", "2001-02-02", "woman");
-        User user3 = new User("user3", "1234", "user3", "2001-03-03", "man");
-
-        userServiceImpl.registerUser(new UserDTO(user1.getUserId(), user1.getUserPassword(), user1.getUserNickname(), user1.getBirthday(), user1.getGender()));
-        userServiceImpl.registerUser(new UserDTO(user2.getUserId(), user2.getUserPassword(), user2.getUserNickname(), user2.getBirthday(), user2.getGender()));
-        userServiceImpl.registerUser(new UserDTO(user3.getUserId(), user3.getUserPassword(), user3.getUserNickname(), user3.getBirthday(), user3.getGender()));
-
-        friendshipServiceImpl.sendFriendRequest(userServiceImpl.getUserByUserId("user1").getId(), userServiceImpl.getUserByUserId("user2").getId());
-        friendshipServiceImpl.sendFriendRequest(userServiceImpl.getUserByUserId("user2").getId(), userServiceImpl.getUserByUserId("user3").getId());
-        friendshipServiceImpl.sendFriendRequest(userServiceImpl.getUserByUserId("user3").getId(), userServiceImpl.getUserByUserId("user1").getId());
-        friendshipServiceImpl.sendFriendRequest(userServiceImpl.getUserByUserId("user2").getId(), userServiceImpl.getUserByUserId("user1").getId());
-
         List<Friendship> friendshipList = friendshipServiceImpl.getAllFriendship(false);
 
         for(Friendship f: friendshipList){
