@@ -1,11 +1,11 @@
-package com.mtvs.backend.friend.service;
+package com.mtvs.backend.Friend.service;
 
-import com.mtvs.backend.friend.repository.FriendshipRepository;
+import com.mtvs.backend.Friend.repository.FriendshipRepository;
 import com.mtvs.backend.user.domain.User;
 import com.mtvs.backend.user.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import com.mtvs.backend.friend.domain.Friendship;
+import com.mtvs.backend.Friend.domain.Friendship;
 
 import java.util.List;
 import java.util.stream.Collectors;

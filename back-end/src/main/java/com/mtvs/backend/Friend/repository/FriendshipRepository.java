@@ -1,6 +1,6 @@
-package com.mtvs.backend.friend.repository;
+package com.mtvs.backend.Friend.repository;
 
-import com.mtvs.backend.friend.domain.Friendship;
+import com.mtvs.backend.Friend.domain.Friendship;
 import com.mtvs.backend.user.domain.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;

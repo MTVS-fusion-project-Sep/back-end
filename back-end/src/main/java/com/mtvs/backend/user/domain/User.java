@@ -38,7 +38,7 @@ public class User {
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "interest_id")
     )
-    private List<Interest> interestList = new ArrayList<>();
+    private List<Interest> interests = new ArrayList<>();
 
 
     public User() {}
