@@ -84,9 +84,7 @@ public class InterestTest {
     @Test
     @Transactional
     void updateInterestTest() {
-        User user1 = new User("user1", "1234", "user1", "2001-01-01", "man");
-        userServiceImpl.registerUser(new UserDTO(user1.getUserId(), user1.getUserPassword(), user1.getUserNickname(), user1.getBirthday(), user1.getGender()));
-        User foundUser = userServiceImpl.getUserByUserId("user1");
+    User foundUser = userServiceImpl.getUserByUserId("user1");
 
         List<InterestDTO> selectedInterestDtoList = new ArrayList<>();
         selectedInterestDtoList.add(new InterestDTO("게임", "롤"));
@@ -98,7 +96,7 @@ public class InterestTest {
         selectedInterestDtoList.add(new InterestDTO("생활/취미", "인테리어"));
         selectedInterestDtoList.add(new InterestDTO("생활/취미", "거지방ㅋ"));
 
-        userServiceImpl.updateInterestList(user1.getUserId(), selectedInterestDtoList);
+        userServiceImpl.updateInterestList(foundUser.getUserId(), selectedInterestDtoList);
         User foundUser1 = userServiceImpl.getUserByUserId("user1");
         Assertions.assertThat(foundUser1.getInterestList().size()).isEqualTo(8);
     }
