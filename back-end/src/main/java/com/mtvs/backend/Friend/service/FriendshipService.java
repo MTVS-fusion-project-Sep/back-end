@@ -1,6 +1,6 @@
-package com.mtvs.backend.friend.service;
+package com.mtvs.backend.Friend.service;
 
-import com.mtvs.backend.friend.domain.Friendship;
+import com.mtvs.backend.Friend.domain.Friendship;
 import com.mtvs.backend.user.domain.User;
 
 import java.util.List;
