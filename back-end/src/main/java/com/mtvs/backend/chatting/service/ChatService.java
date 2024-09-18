@@ -47,6 +47,7 @@ public class ChatService {
         }
 
         TextMessage textMessage = Util.Chat.resolveTextMessage(chatMessage);
+        System.out.println("textMessage = " + textMessage);
         room.sendMessage(textMessage);
     }
 
