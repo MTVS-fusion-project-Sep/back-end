@@ -29,14 +29,7 @@ public class UserServiceImpl implements UserService{
         this.interestServiceImpl = interestServiceImpl;
     }
 
-    public void registerUser(UserDTO userDTO) {
-        User user = new User();
-        user.setUserId(userDTO.getUserId());
-        user.setUserPassword(userDTO.getUserPassword());
-        user.setUserNickname(userDTO.getUserNickname());
-        user.setBirthday(userDTO.getBirthday());
-        user.setGender(userDTO.getGender());
-
+    public void registerUser(User user) {
         userRepository.save(user);
     }
 
