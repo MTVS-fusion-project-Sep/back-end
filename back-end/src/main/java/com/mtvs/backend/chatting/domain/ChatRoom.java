@@ -41,6 +41,8 @@ public class ChatRoom {
         sessions.add(session);
     }
 
+    public void remove(WebSocketSession session) {sessions.remove(session);}
+
     public static ChatRoom of(String roomId, String name) {
         return ChatRoom.builder()
                 .roomId(roomId)
