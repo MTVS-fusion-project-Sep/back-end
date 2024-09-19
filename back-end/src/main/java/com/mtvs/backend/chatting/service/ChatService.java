@@ -54,4 +54,10 @@ public class ChatService {
     private boolean isEnterRoom(ChatMessage chatMessage) {
         return chatMessage.getMessageType().equals(ChatMessage.MessageType.ENTER);
     }
+
+    public void removeSession(WebSocketSession session) {
+        chatRepository.findAll().forEach(chatRoom -> {
+            chatRoom.remove(session);
+        });
+    }
 }
