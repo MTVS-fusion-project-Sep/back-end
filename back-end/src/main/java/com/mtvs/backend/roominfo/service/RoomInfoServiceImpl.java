@@ -25,7 +25,7 @@ public class RoomInfoServiceImpl implements RoomInfoService{
     public RoomInfo registerRoomInfo(RoomInfoRegisterDTO rirDTO) {
 
         User foundUser = userServiceImpl.getUserByUserId(rirDTO.getUserId());
-        RoomInfo roomInfo = new RoomInfo(rirDTO.getWallPaperName(), rirDTO.getTileName(), foundUser);
+        RoomInfo roomInfo = new RoomInfo(rirDTO.getWallIndex(), rirDTO.getWallIndex(), foundUser);
         return roomInfoRepository.save(roomInfo);
     }
 
@@ -33,8 +33,8 @@ public class RoomInfoServiceImpl implements RoomInfoService{
     public RoomInfo updateRoomInfo(RoomInfoUpdateDTO riuDTO) {
 
         RoomInfo foundRoomInfo = roomInfoRepository.findById(riuDTO.getId()).orElseThrow(() -> new IllegalArgumentException("not found roomFInfo id: " + riuDTO.getId()));
-        foundRoomInfo.setTileName(riuDTO.getTileName());
-        foundRoomInfo.setWallpaperName(riuDTO.getWallPaperName());
+        foundRoomInfo.setTileIndex(riuDTO.getTileIndex());
+        foundRoomInfo.setWallIndex(riuDTO.getWallIndex());
         return roomInfoRepository.save(foundRoomInfo);
 
     }

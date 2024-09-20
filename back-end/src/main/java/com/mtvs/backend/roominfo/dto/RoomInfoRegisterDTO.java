@@ -5,13 +5,13 @@ import lombok.Getter;
 @Getter
 public class RoomInfoRegisterDTO {
 
-    private String wallPaperName;
-    private String tileName;
+    private int wallIndex;
+    private int tileIndex;
     private String userId;
 
-    public RoomInfoRegisterDTO(String wallPaperName, String tileName, String userId) {
-        this.wallPaperName = wallPaperName;
-        this.tileName = tileName;
+    public RoomInfoRegisterDTO(int wallIndex, int tileIndex, String userId) {
+        this.wallIndex = wallIndex;
+        this.tileIndex = tileIndex;
         this.userId = userId;
     }
 }

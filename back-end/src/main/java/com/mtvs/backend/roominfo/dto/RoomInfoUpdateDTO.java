@@ -6,12 +6,12 @@ import lombok.Getter;
 public class RoomInfoUpdateDTO {
 
     private long id;
-    private String wallPaperName;
-    private String tileName;
+    private int wallIndex;
+    private int tileIndex;
 
-    public RoomInfoUpdateDTO(long id, String wallPaperName, String tileName) {
+    public RoomInfoUpdateDTO(long id, int wallIndex, int tileIndex) {
         this.id = id;
-        this.wallPaperName = wallPaperName;
-        this.tileName = tileName;
+        this.wallIndex = wallIndex;
+        this.tileIndex = tileIndex;
     }
 }
