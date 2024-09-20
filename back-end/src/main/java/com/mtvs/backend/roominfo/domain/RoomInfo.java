@@ -15,11 +15,11 @@ public class RoomInfo {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
 
-    @Column(name="wallpaper_name")
-    String wallpaperName;
+    @Column(name="wall_index")
+    int wallIndex;
 
-    @Column(name="tile_name")
-    String tileName;
+    @Column(name="tile_index")
+    int tileIndex;
 
     @ManyToOne
     @JoinColumn(name="user_id")
@@ -28,9 +28,9 @@ public class RoomInfo {
     public RoomInfo() {
     }
 
-    public RoomInfo(String wallpaperName, String tileName, User user) {
-        this.wallpaperName = wallpaperName;
-        this.tileName = tileName;
+    public RoomInfo(int wallIndex, int tileIndex, User user) {
+        this.wallIndex = wallIndex;
+        this.tileIndex = tileIndex;
         this.user = user;
     }
 }
