@@ -16,13 +16,13 @@ public interface WallFurnitureRepository extends JpaRepository<WallFurniture, Lo
     @Query("SELECT wf FROM WallFurniture wf WHERE wf.furniOnPlace = :furniOnPlace")
     List<WallFurniture> findByWallFurnitureOnPlace(@Param("furniOnPlace") Boolean furniOnPlace);
 
-    @Query("SELECT wf FROM WallFurniture wf WHERE wf.user.userId = :userId And wf.furniOnPlace = :furniOnPlace")
+    @Query("SELECT wf FROM WallFurniture wf WHERE wf.userId = :userId And wf.furniOnPlace = :furniOnPlace")
     List<WallFurniture> findByUserIdAndWallFurnitureOnPlace(@Param("userId") String userId, @Param("furniOnPlace") boolean furniOnPlace);
 
     @Query("SELECT wf FROM WallFurniture wf WHERE wf.furniCategory = :furniCategory")
     List<WallFurniture> findByWallFurnitureCategory(@Param("furniCategory") String furniCategory);
 
-    @Query("SELECT wf FROM WallFurniture wf WHERE wf.user.userId = :userId")
+    @Query("SELECT wf FROM WallFurniture wf WHERE wf.userId = :userId")
     List<WallFurniture> findByWallFurnitureListByUserId(@Param("userId") String userId);
 
     @Modifying

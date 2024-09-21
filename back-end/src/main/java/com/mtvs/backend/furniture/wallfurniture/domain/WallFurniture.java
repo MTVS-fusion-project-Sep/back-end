@@ -20,14 +20,12 @@ public class WallFurniture {
     private String furniName;
 
     @Column(name = "furni_pos")
-    private int furniPos;
+    private WallFurniPosType furniPos;
 
     @Column(name = "furni_on_place")
     private boolean furniOnPlace;
 
-    @ManyToOne
-    @JoinColumn(name = "user_id")
-    private User user;
+    private String userId;
 
     @Override
     public String toString() {
@@ -37,7 +35,7 @@ public class WallFurniture {
                 ", furniName='" + furniName + '\'' +
                 ", furniPos=" + furniPos +
                 ", furniOnPlace=" + furniOnPlace +
-                ", user=" + user +
+                ", userId='" + userId + '\'' +
                 '}';
     }
 }
