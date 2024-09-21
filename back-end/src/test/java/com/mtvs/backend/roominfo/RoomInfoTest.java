@@ -31,6 +31,7 @@ public class RoomInfoTest {
     @Autowired
     private UserRepository userRepository;
 
+
     @Autowired
     private EntityManager em;
 
