@@ -23,7 +23,6 @@ public class GroundFurnitureServiceImpl implements GroundFurnitureService {
 
     @Override
     public GroundFurniture registerGroundFurniture(GroundFurnitureRegisterDTO gfrDTO) {
-        User foundUser = userServiceImpl.getUserByUserId(gfrDTO.getUserId());
         GroundFurniture gf = new GroundFurniture();
         gf.setFurniSizeX(gfrDTO.getFurniSizeX());
         gf.setFurniSizeZ(gfrDTO.getFurniSizeZ());
@@ -33,7 +32,7 @@ public class GroundFurnitureServiceImpl implements GroundFurnitureService {
         gf.setFurniRotate(gfrDTO.isFurniRotate());
         gf.setFurniCategory(gfrDTO.getFurniCategory());
         gf.setFurniName(gfrDTO.getFurniName());
-        gf.setUser(foundUser);
+        gf.setUserId(gfrDTO.getUserId());
         return repository.save(gf);
     }
 
