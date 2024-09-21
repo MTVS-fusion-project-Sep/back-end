@@ -12,7 +12,6 @@ public class WallFurnitureUpdateDTO {
     private String furniName;
     private WallFurniPosType furniPos;
     private boolean furniOnPlace;
-    private User user;
 
     public WallFurnitureUpdateDTO() {
     }
