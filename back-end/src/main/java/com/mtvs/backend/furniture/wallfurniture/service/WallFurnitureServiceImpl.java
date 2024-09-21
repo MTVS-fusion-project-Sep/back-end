@@ -26,7 +26,7 @@ public class WallFurnitureServiceImpl implements WallFurnitureService{
         wallFurniture.setFurniName(wallFurnitureRegisterDTO.getFurniName());
         wallFurniture.setFurniPos(wallFurnitureRegisterDTO.getFurniPos());
         wallFurniture.setFurniOnPlace(wallFurnitureRegisterDTO.isFurniOnPlace());
-        wallFurniture.setUser(wallFurnitureRegisterDTO.getUser());
+        wallFurniture.setUserId(wallFurnitureRegisterDTO.getUserId());
         return wallFurnitureRepository.save(wallFurniture);
     }
 
