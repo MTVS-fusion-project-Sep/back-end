@@ -27,7 +27,7 @@ public class WallFurnitureController {
     @GetMapping("/furnitureId")
     ResponseEntity<WallFurniture> getWallFurniture(
             @Parameter(description = "조회할 벽가구의 ID", example = "1")
-            @RequestParam Long wallFurnitureId) {
+            @RequestParam("wallFurnitureId") Long wallFurnitureId) {
         WallFurniture foundWallFurniture = wallFurnitureServiceImpl.getWallFurnitureById(wallFurnitureId);
         return ResponseEntity.ok(foundWallFurniture);
     }
@@ -36,7 +36,7 @@ public class WallFurnitureController {
     @GetMapping("/furnitureName")
     ResponseEntity<WallFurniture> getWallFurnitureByName(
             @Parameter(description = "조회할 벽가구의 이름", example = "Bookshelf")
-            @RequestParam String wallFurnitureName) {
+            @RequestParam("wallFurnitureName") String wallFurnitureName) {
         WallFurniture foundWallFurniture = wallFurnitureServiceImpl.getWallFurnitureByName(wallFurnitureName);
         return ResponseEntity.ok(foundWallFurniture);
     }
@@ -45,7 +45,7 @@ public class WallFurnitureController {
     @GetMapping("/user")
     ResponseEntity<List<WallFurniture>> getWallFurnitureListByUserId(
             @Parameter(description = "조회할 유저의 ID", example = "user1")
-            @RequestParam String userId) {
+            @RequestParam("userId") String userId) {
         List<WallFurniture> foundWallFurnitureList = wallFurnitureServiceImpl.getWallFurnitureListByUserId(userId);
         return ResponseEntity.ok(foundWallFurnitureList);
     }
@@ -53,8 +53,8 @@ public class WallFurnitureController {
     @Operation(summary = "카테고리로 벽가구 조회", description = "카테고리로 벽가구 목록을 조회합니다.")
     @GetMapping("/furnitureCategory")
     ResponseEntity<List<WallFurniture>> getWallFurnitureListByCategory(
-            @Parameter(description = "조회할 벽가구 카테고리", example = "Living Room")
-            @RequestParam String wallFurnitureCategory) {
+            @Parameter(description = "조회할 벽가구 카테고리 이름", example = "Living Room")
+            @RequestParam("wallFurnitureCategory") String wallFurnitureCategory) {
         return ResponseEntity.ok(wallFurnitureServiceImpl.getWallFurnitureListByCategory(wallFurnitureCategory));
     }
 
@@ -80,7 +80,7 @@ public class WallFurnitureController {
     @DeleteMapping("/furnitureId")
     ResponseEntity<?> deleteWallFurniture(
             @Parameter(description = "삭제할 벽가구의 ID", example = "1")
-            @RequestParam Long wallFurnitureId) {
+            @RequestParam("wallFurnitureId") Long wallFurnitureId) {
         wallFurnitureServiceImpl.deleteWallFurnitureById(wallFurnitureId);
         return ResponseEntity.noContent().build();
     }
@@ -89,7 +89,7 @@ public class WallFurnitureController {
     @DeleteMapping("/furnitureName")
     ResponseEntity<?> deleteWallFurnitureByName(
             @Parameter(description = "삭제할 벽가구의 이름", example = "Bookshelf")
-            @RequestParam String wallFurnitureName) {
+            @RequestParam("wallFurnitureName") String wallFurnitureName) {
         wallFurnitureServiceImpl.deleteWallFurnitureByName(wallFurnitureName);
         return ResponseEntity.noContent().build();
     }
