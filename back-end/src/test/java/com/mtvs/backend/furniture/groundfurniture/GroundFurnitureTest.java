@@ -6,7 +6,7 @@ import com.mtvs.backend.furniture.groundfurniture.dto.GroundFurnitureUpdateDTO;
 import com.mtvs.backend.furniture.groundfurniture.repository.GroundFurnitureRepository;
 import com.mtvs.backend.furniture.groundfurniture.service.GroundFurnitureServiceImpl;
 import com.mtvs.backend.user.domain.User;
-import com.mtvs.backend.user.dto.UserDTO;
+import com.mtvs.backend.user.dto.UserRegisterDTO;
 import com.mtvs.backend.user.service.UserServiceImpl;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
@@ -41,11 +41,9 @@ public class GroundFurnitureTest {
         entityManager.createNativeQuery("ALTER TABLE ground_furniture AUTO_INCREMENT = 1").executeUpdate();
         entityManager.flush();
 
-        userServiceImpl.registerUser(new User("user1", "1234", "user1", "2001-11-23", "man"));
-        userServiceImpl.registerUser(new User("user2", "1234", "user1", "2001-11-23", "woman"));
-        userServiceImpl.registerUser(new User("user3", "1234", "user1", "2001-11-23", "man"));
-        userServiceImpl.registerUser(new User("user4", "1234", "user1", "2001-11-23", "woman"));
-        userServiceImpl.registerUser(new User("user5", "1234", "user1", "2001-11-23", "man"));
+        userServiceImpl.registerUser(new UserRegisterDTO("user1", "1234", "user1", "2001-11-23", "man"));
+        userServiceImpl.registerUser(new UserRegisterDTO("user2", "1234", "user2", "2001-11-23", "woman"));
+        userServiceImpl.registerUser(new UserRegisterDTO("user3", "1234", "user3", "2001-11-23", "man"));
 
         // 임의의 값으로 GroundFurnitureRegisterDTO 객체 10개 생성
         GroundFurnitureRegisterDTO furniture1 = new GroundFurnitureRegisterDTO(100, 200, true, 10, 20, false, "Living Room", "Sofa", "user1");
