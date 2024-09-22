@@ -4,6 +4,7 @@ import com.mtvs.backend.guestbook.domain.GuestBook;
 import com.mtvs.backend.guestbook.repository.GuestBookRepository;
 import com.mtvs.backend.guestbook.service.GuestBookServiceImpl;
 import com.mtvs.backend.user.domain.User;
+import com.mtvs.backend.user.dto.UserRegisterDTO;
 import com.mtvs.backend.user.repository.UserRepository;
 import com.mtvs.backend.user.service.UserServiceImpl;
 import jakarta.persistence.EntityManager;
@@ -44,18 +45,14 @@ public class GuestBookTest {
         entityManager.createNativeQuery("ALTER TABLE guest_book AUTO_INCREMENT = 1").executeUpdate();
         entityManager.flush();
 
-        User user1 = new User("user1", "1234", "user1", "2001-01-01", "man");
-        User user2 = new User("user2", "1234", "user2", "2001-02-02", "woman");
-        User user3 = new User("user3", "1234", "user3", "2001-03-03", "man");
+        userServiceImpl.registerUser(new UserRegisterDTO("user1", "1234", "user1", "2001-11-23", "man"));
+        userServiceImpl.registerUser(new UserRegisterDTO("user2", "1234", "user2", "2001-11-23", "woman"));
+        userServiceImpl.registerUser(new UserRegisterDTO("user3", "1234", "user3", "2001-11-23", "man"));
 
-        userServiceImpl.registerUser(user1);
-        userServiceImpl.registerUser(user2);
-        userServiceImpl.registerUser(user3);
-
-        guestBookServiceImpl.registerGuestBook(new GuestBook(user1.getUserId(), user2.getUserId(), "guestbook1", "2024-09-18"));
-        guestBookServiceImpl.registerGuestBook(new GuestBook(user1.getUserId(), user3.getUserId(), "guestbook2", "2024-09-19"));
-        guestBookServiceImpl.registerGuestBook(new GuestBook(user2.getUserId(), user3.getUserId(), "guestbook3", "2024-09-20"));
-        guestBookServiceImpl.registerGuestBook(new GuestBook(user2.getUserId(), user1.getUserId(), "guestbook4", "2024-09-21"));
+        guestBookServiceImpl.registerGuestBook(new GuestBook("user1", "user2", "guestbook1", "2024-09-18"));
+        guestBookServiceImpl.registerGuestBook(new GuestBook("user1", "user3", "guestbook2", "2024-09-19"));
+        guestBookServiceImpl.registerGuestBook(new GuestBook("user2", "user3", "guestbook3", "2024-09-20"));
+        guestBookServiceImpl.registerGuestBook(new GuestBook("user2", "user1", "guestbook4", "2024-09-21"));
     }
 
     @DisplayName("방명록 등록 테스트")
