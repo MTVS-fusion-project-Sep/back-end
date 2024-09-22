@@ -23,23 +23,23 @@ public class GuestBookController {
 
     @PostMapping
     ResponseEntity<GuestBook> registGuestBook(@RequestBody GuestBookRegisterDTO gbrDTO) {
-        GuestBook newGuestBook = new GuestBook(gbrDTO.getContent(), gbrDTO.getToUserId(), gbrDTO.getToUserId(), gbrDTO.getRegistDate());
+        GuestBook newGuestBook = new GuestBook(gbrDTO.getToUserId(), gbrDTO.getToUserId(), gbrDTO.getContent(), gbrDTO.getRegistDate());
         return ResponseEntity.ok(guestBookServiceImpl.registerGuestBook(newGuestBook));
     }
 
-    @GetMapping("/{guestBookId}")
-    ResponseEntity<GuestBook> findGuestBookById(@PathVariable("guestBookId") Long id) {
+    @GetMapping
+    ResponseEntity<GuestBook> findGuestBookById(@RequestParam("guestBookId") Long id) {
         return ResponseEntity.ok(guestBookServiceImpl.findGuestBookById(id));
     }
 
 
-    @GetMapping("/writer/{writerId}")
-    ResponseEntity<List<GuestBook>> findGuestBookByWriterId(@PathVariable("writerId") String writerId) {
+    @GetMapping("/writer")
+    ResponseEntity<List<GuestBook>> findGuestBookByWriterId(@RequestParam("writerId") String writerId) {
         return ResponseEntity.ok(guestBookServiceImpl.findGuestBooksByWriterId(writerId));
     }
 
-    @GetMapping("/reader/{readerId}")
-    ResponseEntity<List<GuestBook>> findGuestBookByReaderId(@PathVariable("readerId") String readerId) {
+    @GetMapping("/reader")
+    ResponseEntity<List<GuestBook>> findGuestBookByReaderId(@RequestParam("readerId") String readerId) {
         return ResponseEntity.ok(guestBookServiceImpl.findGuestBookByReaderId(readerId));
     }
 
@@ -58,8 +58,8 @@ public class GuestBookController {
         return ResponseEntity.ok(guestBookServiceImpl.updateGuestBook(foundGuestBook));
     }
 
-    @DeleteMapping("/{guestBookId}")
-    ResponseEntity<GuestBook> deleteGuestBookById(@PathVariable("guestBookId") Long id) {
+    @DeleteMapping
+    ResponseEntity<GuestBook> deleteGuestBookById(@RequestParam("guestBookId") Long id) {
         guestBookServiceImpl.removeGuestBook(id);
         return ResponseEntity.noContent().build();
     }
