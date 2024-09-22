@@ -17,7 +17,7 @@ public class SwaggerConfig {
         server.setUrl("/");
 
         Server prodServer = new Server();  // 운영서버에 따로 띄우기 위해 서버를 추가할 수 있다.
-        server.setUrl("http://192.168.0.76:8080");
+        server.setUrl("http://125.132.216.190:5544");
 
         Info info = new Info()
                 .title("Swagger API")       // API 문서 제목
