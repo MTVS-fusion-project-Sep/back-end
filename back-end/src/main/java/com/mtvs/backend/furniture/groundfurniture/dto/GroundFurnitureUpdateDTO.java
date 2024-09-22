@@ -15,6 +15,9 @@ public class GroundFurnitureUpdateDTO {
     private String furniCategory;
     private String furniName;
 
+    public GroundFurnitureUpdateDTO() {
+    }
+
     public GroundFurnitureUpdateDTO(Long id, int furniSizeX, int furniSizeZ, boolean onPlace, int furniCurrentX, int furniCurrentZ, boolean furniRotate, String furniCategory, String furniName) {
         this.id = id;
         this.furniSizeX = furniSizeX;

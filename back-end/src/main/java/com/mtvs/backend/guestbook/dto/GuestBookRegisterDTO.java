@@ -9,6 +9,9 @@ public class GuestBookRegisterDTO {
     String fromUserId;
     String registDate;
 
+    public GuestBookRegisterDTO() {
+    }
+
     public GuestBookRegisterDTO(String content, String toUserId, String fromUserId, String registDate) {
         this.content = content;
         this.toUserId = toUserId;

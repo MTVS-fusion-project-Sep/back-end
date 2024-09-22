@@ -10,6 +10,9 @@ public class GuestBookUpdateDTO {
     private String fromUserId;
     private String registDate;
 
+    public GuestBookUpdateDTO() {
+    }
+
     public GuestBookUpdateDTO(Long id, String content, String toUserId, String fromUserId, String registDate) {
         this.id = id;
         this.content = content;
