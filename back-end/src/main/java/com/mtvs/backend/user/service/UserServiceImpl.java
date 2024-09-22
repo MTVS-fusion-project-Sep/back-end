@@ -7,7 +7,8 @@ import com.mtvs.backend.interest.service.InterestCategoryServiceImpl;
 import com.mtvs.backend.interest.service.InterestDTOServiceImpl;
 import com.mtvs.backend.interest.service.InterestServiceImpl;
 import com.mtvs.backend.user.domain.User;
-import com.mtvs.backend.user.dto.UserDTO;
+import com.mtvs.backend.user.dto.UserRegisterDTO;
+import com.mtvs.backend.user.dto.UserUpdateDTO;
 import com.mtvs.backend.user.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -29,8 +30,9 @@ public class UserServiceImpl implements UserService{
         this.interestServiceImpl = interestServiceImpl;
     }
 
-    public void registerUser(User user) {
-        userRepository.save(user);
+    public void registerUser(UserRegisterDTO urDTO) {
+        User newUser = new User(urDTO.getUserId(), urDTO.getUserPassword(), urDTO.getUserNickname(), urDTO.getBirthday(), urDTO.getGender());
+        userRepository.save(newUser);
     }
 
     @Override
@@ -83,15 +85,13 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
-    public void updateUser(long userId, UserDTO userDTO) {
-        User user = getUserById(userId);
-
+    public void updateUser(UserUpdateDTO userDTO) {
+        User user = getUserById(userDTO.getId());
         user.setUserId(userDTO.getUserId());
         user.setUserPassword(userDTO.getUserPassword());
         user.setUserNickname(userDTO.getUserNickname());
         user.setBirthday(userDTO.getBirthday());
         user.setGender(userDTO.getGender());
-
         userRepository.save(user);
     }
 

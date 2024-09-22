@@ -1,7 +1,8 @@
 package com.mtvs.backend.user.controller;
 
 import com.mtvs.backend.user.domain.User;
-import com.mtvs.backend.user.dto.UserDTO;
+import com.mtvs.backend.user.dto.UserRegisterDTO;
+import com.mtvs.backend.user.dto.UserUpdateDTO;
 import com.mtvs.backend.user.service.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -22,10 +23,9 @@ public class UserController {
     }
 
     @PostMapping
-    public ResponseEntity<User> registerUser(@RequestBody List<UserDTO> userDTO) {
-        User newUser = new User(userDTO.get(0).getUserId(), userDTO.get(0).getUserPassword(), userDTO.get(0).getUserNickname(), userDTO.get(0).getBirthday(), userDTO.get(0).getGender());
-        userServiceImpl.registerUser(newUser);
-        return ResponseEntity.status(HttpStatus.CREATED).body(newUser);
+    public ResponseEntity<UserRegisterDTO> registerUser(@RequestBody List<UserRegisterDTO> urDTO) {
+        userServiceImpl.registerUser(urDTO.get(0));
+        return ResponseEntity.status(HttpStatus.CREATED).body(urDTO.get(0));
     }
 
     @GetMapping("/{userId}")
@@ -40,16 +40,9 @@ public class UserController {
     }
 
     @PatchMapping
-    public ResponseEntity<User> updateUser(@RequestBody User user){
-        User foundUser = userServiceImpl.getUserById(user.getId());
-        foundUser.setUserId(user.getUserId());
-        foundUser.setUserPassword(user.getUserPassword());
-        foundUser.setUserNickname(user.getUserNickname());
-        foundUser.setBirthday(user.getBirthday());
-        foundUser.setGender(user.getGender());
-        UserDTO userDTO = new UserDTO(foundUser.getUserId(), foundUser.getUserPassword(), foundUser.getUserNickname(), foundUser.getBirthday(), foundUser.getGender());
-        userServiceImpl.updateUser(user.getId(), userDTO);
-        return ResponseEntity.ok(user);
+    public ResponseEntity<UserUpdateDTO> updateUser(@RequestBody UserUpdateDTO uuDTO){
+        userServiceImpl.updateUser(uuDTO);
+        return ResponseEntity.ok(uuDTO);
     }
 
     @DeleteMapping("/{userId}")
