@@ -9,7 +9,7 @@ import com.mtvs.backend.interest.service.InterestCategoryServiceImpl;
 import com.mtvs.backend.interest.service.InterestDTOServiceImpl;
 import com.mtvs.backend.interest.service.InterestServiceImpl;
 import com.mtvs.backend.user.domain.User;
-import com.mtvs.backend.user.dto.UserDTO;
+import com.mtvs.backend.user.dto.UserRegisterDTO;
 import com.mtvs.backend.user.repository.UserRepository;
 import com.mtvs.backend.user.service.UserServiceImpl;
 import jakarta.persistence.EntityManager;
@@ -78,16 +78,16 @@ public class InterestTest {
         for(InterestDTO interestDTO : interestDTOList){
             interestDTOService.createInterestDTO(interestDTO);
         }
+
+        userServiceImpl.registerUser(new UserRegisterDTO("user1", "1234", "user1", "2001-11-23", "man"));
+        userServiceImpl.registerUser(new UserRegisterDTO("user2", "1234", "user2", "2001-11-23", "woman"));
+        userServiceImpl.registerUser(new UserRegisterDTO("user3", "1234", "user3", "2001-11-23", "man"));
     }
 
     @DisplayName("유저 관심사 수정 테스트")
     @Test
     @Transactional
     void updateInterestTest() {
-        User user1 = new User("user1", "1234", "user1", "2001-01-01", "man");
-        userServiceImpl.registerUser(user1);
-        User foundUser = userServiceImpl.getUserByUserId("user1");
-
         List<InterestDTO> selectedInterestDtoList = new ArrayList<>();
         selectedInterestDtoList.add(new InterestDTO("게임", "롤"));
         selectedInterestDtoList.add(new InterestDTO("게임", "오버워치"));
@@ -98,7 +98,7 @@ public class InterestTest {
         selectedInterestDtoList.add(new InterestDTO("생활/취미", "인테리어"));
         selectedInterestDtoList.add(new InterestDTO("생활/취미", "거지방ㅋ"));
 
-        userServiceImpl.updateInterestList(user1.getUserId(), selectedInterestDtoList);
+        userServiceImpl.updateInterestList("user1", selectedInterestDtoList);
         User foundUser1 = userServiceImpl.getUserByUserId("user1");
         Assertions.assertThat(foundUser1.getInterestList().size()).isEqualTo(8);
     }
