@@ -7,6 +7,7 @@ import org.springframework.stereotype.Repository;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 @RequiredArgsConstructor
 @Repository
@@ -24,4 +25,6 @@ public class ChatRepository {
     public List<ChatRoom> findAll() {
         return new ArrayList<>(chatRooms.values());
     }
+
+    public List<ChatRoom> findByCategory(String category) { return chatRooms.values().stream().filter(chatRoom -> chatRoom.getCategory().equals(category)).toList(); }
 }
