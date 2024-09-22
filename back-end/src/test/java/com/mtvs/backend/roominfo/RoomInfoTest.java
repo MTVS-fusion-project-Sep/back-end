@@ -5,6 +5,7 @@ import com.mtvs.backend.roominfo.dto.RoomInfoUpdateDTO;
 import com.mtvs.backend.roominfo.repository.RoomInfoRepository;
 import com.mtvs.backend.roominfo.service.RoomInfoServiceImpl;
 import com.mtvs.backend.user.domain.User;
+import com.mtvs.backend.user.dto.UserRegisterDTO;
 import com.mtvs.backend.user.repository.UserRepository;
 import com.mtvs.backend.user.service.UserServiceImpl;
 import jakarta.persistence.EntityManager;
@@ -44,9 +45,9 @@ public class RoomInfoTest {
         em.flush();
 
         if(userRepository.count() <= 0){
-            userServiceImpl.registerUser(new User("user1", "1234", "user1", "2001-11-23", "man"));
-            userServiceImpl.registerUser(new User("user2", "1234", "user2", "2001-11-23", "woman"));
-            userServiceImpl.registerUser(new User("user3", "1234", "user3", "2001-11-23", "man"));
+            userServiceImpl.registerUser(new UserRegisterDTO("user1", "1234", "user1", "2001-11-23", "man"));
+            userServiceImpl.registerUser(new UserRegisterDTO("user2", "1234", "user2", "2001-11-23", "woman"));
+            userServiceImpl.registerUser(new UserRegisterDTO("user3", "1234", "user3", "2001-11-23", "man"));
         }
     }
 
