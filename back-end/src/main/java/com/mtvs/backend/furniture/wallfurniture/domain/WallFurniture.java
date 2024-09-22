@@ -27,6 +27,17 @@ public class WallFurniture {
 
     private String userId;
 
+    public WallFurniture() {
+    }
+
+    public WallFurniture(String furniCategory, String furniName, WallFurniPosType furniPos, boolean furniOnPlace, String userId) {
+        this.furniCategory = furniCategory;
+        this.furniName = furniName;
+        this.furniPos = furniPos;
+        this.furniOnPlace = furniOnPlace;
+        this.userId = userId;
+    }
+
     @Override
     public String toString() {
         return "WallFurniture{" +
