@@ -7,6 +7,6 @@ import org.springframework.data.repository.query.Param;
 
 public interface RoomInfoRepository extends JpaRepository<RoomInfo, Long> {
 
-    @Query("SELECT ri FROM RoomInfo ri WHERE ri.user.userId = :userId")
+    @Query("SELECT ri FROM RoomInfo ri WHERE ri.userId = :userId")
     RoomInfo getRoomInfoByUserId(@Param("userId") String userId);
 }
