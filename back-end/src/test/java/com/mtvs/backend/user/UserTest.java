@@ -1,12 +1,10 @@
 package com.mtvs.backend.user;
 
-import com.mtvs.backend.interest.domain.Interest;
-import com.mtvs.backend.interest.domain.InterestCategory;
-import com.mtvs.backend.interest.dto.InterestDTO;
 import com.mtvs.backend.interest.service.InterestCategoryServiceImpl;
 import com.mtvs.backend.interest.service.InterestDTOServiceImpl;
 import com.mtvs.backend.user.domain.User;
-import com.mtvs.backend.user.dto.UserDTO;
+import com.mtvs.backend.user.dto.UserRegisterDTO;
+import com.mtvs.backend.user.dto.UserUpdateDTO;
 import com.mtvs.backend.user.repository.UserRepository;
 import com.mtvs.backend.user.service.UserServiceImpl;
 import jakarta.persistence.EntityManager;
@@ -45,13 +43,9 @@ public class UserTest {
         entityManager.createNativeQuery("ALTER TABLE user AUTO_INCREMENT = 1").executeUpdate();
         entityManager.flush();
 
-        User user1 = new User("user1", "1234", "user1", "2001-01-01", "man");
-        User user2 = new User("user2", "1234", "user2", "2001-02-02", "woman");
-        User user3 = new User("user3", "1234", "user3", "2001-03-03", "man");
-
-        userServiceImpl.registerUser(user1);
-        userServiceImpl.registerUser(user2);
-        userServiceImpl.registerUser(user3);
+        userServiceImpl.registerUser(new UserRegisterDTO("user1", "1234", "user1", "2001-11-23", "man"));
+        userServiceImpl.registerUser(new UserRegisterDTO("user2", "1234", "user2", "2001-11-23", "woman"));
+        userServiceImpl.registerUser(new UserRegisterDTO("user3", "1234", "user3", "2001-11-23", "man"));
     }
 
     @DisplayName("유저 등록 테스트")
@@ -87,14 +81,14 @@ public class UserTest {
     @Test
     @Transactional
     void updateUserTest() {
-        UserDTO newUserInfo = new UserDTO("user1", "1234", "user11", "2002-11-11", "woman");
-        User foundUser1 = userServiceImpl.getUserByUserId("user1");
-        userServiceImpl.updateUser(foundUser1.getId(), newUserInfo);
-
         User foundUser = userServiceImpl.getUserByUserId("user1");
-        Assertions.assertThat(foundUser.getUserNickname()).isEqualTo("user11");
-        Assertions.assertThat(foundUser.getBirthday()).isEqualTo("2002-11-11");
-        Assertions.assertThat(foundUser.getGender()).isEqualTo("woman");
+        UserUpdateDTO newUserInfo = new UserUpdateDTO(foundUser.getId(), "user1", "1234", "user11", "2002-11-11", "woman");
+        userServiceImpl.updateUser(newUserInfo);
+
+        User foundUser1 = userServiceImpl.getUserByUserId("user1");
+        Assertions.assertThat(foundUser1.getUserNickname()).isEqualTo("user11");
+        Assertions.assertThat(foundUser1.getBirthday()).isEqualTo("2002-11-11");
+        Assertions.assertThat(foundUser1.getGender()).isEqualTo("woman");
     }
 
     @DisplayName("유저 삭제 테스트")

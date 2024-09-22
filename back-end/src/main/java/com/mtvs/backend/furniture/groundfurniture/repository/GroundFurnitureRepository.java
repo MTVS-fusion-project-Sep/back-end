@@ -12,7 +12,7 @@ public interface GroundFurnitureRepository extends JpaRepository<GroundFurniture
     GroundFurniture findByFurniName(String furniName);
     void deleteByFurniName(String furniName);
 
-    @Query("SELECT gf FROM GroundFurniture gf WHERE gf.user.userId = :userId")
+    @Query("SELECT gf FROM GroundFurniture gf WHERE gf.userId = :userId")
     List<GroundFurniture> findByUserId(@Param("userId") String userId);
 
     @Query("SELECT gf FROM GroundFurniture gf WHERE gf.furniCategory = :category")

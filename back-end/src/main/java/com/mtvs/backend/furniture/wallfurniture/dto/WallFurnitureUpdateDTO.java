@@ -1,5 +1,6 @@
 package com.mtvs.backend.furniture.wallfurniture.dto;
 
+import com.mtvs.backend.furniture.wallfurniture.domain.WallFurniPosType;
 import com.mtvs.backend.user.domain.User;
 import lombok.Getter;
 
@@ -9,11 +10,13 @@ public class WallFurnitureUpdateDTO {
     private Long id;
     private String furniCategory;
     private String furniName;
-    private int furniPos;
+    private WallFurniPosType furniPos;
     private boolean furniOnPlace;
-    private User user;
 
-    public WallFurnitureUpdateDTO(Long id, String furniCategory, String furniName, int furniPos, boolean furniOnPlace) {
+    public WallFurnitureUpdateDTO() {
+    }
+
+    public WallFurnitureUpdateDTO(Long id, String furniCategory, String furniName, WallFurniPosType furniPos, boolean furniOnPlace) {
         this.id = id;
         this.furniCategory = furniCategory;
         this.furniName = furniName;
@@ -21,12 +24,4 @@ public class WallFurnitureUpdateDTO {
         this.furniOnPlace = furniOnPlace;
     }
 
-    public WallFurnitureUpdateDTO(Long id, String furniCategory, String furniName, int furniPos, boolean furniOnPlace, User user) {
-        this.id = id;
-        this.furniCategory = furniCategory;
-        this.furniName = furniName;
-        this.furniPos = furniPos;
-        this.furniOnPlace = furniOnPlace;
-        this.user = user;
-    }
 }

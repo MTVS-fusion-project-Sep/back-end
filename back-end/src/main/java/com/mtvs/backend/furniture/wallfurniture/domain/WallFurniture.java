@@ -20,14 +20,23 @@ public class WallFurniture {
     private String furniName;
 
     @Column(name = "furni_pos")
-    private int furniPos;
+    private WallFurniPosType furniPos;
 
     @Column(name = "furni_on_place")
     private boolean furniOnPlace;
 
-    @ManyToOne
-    @JoinColumn(name = "user_id")
-    private User user;
+    private String userId;
+
+    public WallFurniture() {
+    }
+
+    public WallFurniture(String furniCategory, String furniName, WallFurniPosType furniPos, boolean furniOnPlace, String userId) {
+        this.furniCategory = furniCategory;
+        this.furniName = furniName;
+        this.furniPos = furniPos;
+        this.furniOnPlace = furniOnPlace;
+        this.userId = userId;
+    }
 
     @Override
     public String toString() {
@@ -37,7 +46,7 @@ public class WallFurniture {
                 ", furniName='" + furniName + '\'' +
                 ", furniPos=" + furniPos +
                 ", furniOnPlace=" + furniOnPlace +
-                ", user=" + user +
+                ", userId='" + userId + '\'' +
                 '}';
     }
 }

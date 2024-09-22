@@ -21,16 +21,16 @@ public class RoomInfo {
     @Column(name="tile_index")
     int tileIndex;
 
-    @ManyToOne
-    @JoinColumn(name="user_id")
-    User user;
+
+    @Column(name="user_id")
+    String userId;
 
     public RoomInfo() {
     }
 
-    public RoomInfo(int wallIndex, int tileIndex, User user) {
+    public RoomInfo(int wallIndex, int tileIndex, String userId) {
         this.wallIndex = wallIndex;
         this.tileIndex = tileIndex;
-        this.user = user;
+        this.userId = userId;
     }
 }

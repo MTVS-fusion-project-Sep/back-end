@@ -9,6 +9,9 @@ public class RoomInfoRegisterDTO {
     private int tileIndex;
     private String userId;
 
+    public RoomInfoRegisterDTO() {
+    }
+
     public RoomInfoRegisterDTO(int wallIndex, int tileIndex, String userId) {
         this.wallIndex = wallIndex;
         this.tileIndex = tileIndex;

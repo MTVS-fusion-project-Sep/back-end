@@ -3,7 +3,7 @@ package com.mtvs.backend.user.dto;
 import lombok.Getter;
 
 @Getter
-public class UserDTO {
+public class UserRegisterDTO {
 
     private String userId;
     private String userPassword;
@@ -11,10 +11,10 @@ public class UserDTO {
     private String birthday;
     private String gender;
 
-    public UserDTO() {
+    public UserRegisterDTO() {
     }
 
-    public UserDTO(String userId, String userPassword, String userNickname, String birthday, String gender) {
+    public UserRegisterDTO(String userId, String userPassword, String userNickname, String birthday, String gender) {
         this.userId = userId;
         this.userPassword = userPassword;
         this.userNickname = userNickname;

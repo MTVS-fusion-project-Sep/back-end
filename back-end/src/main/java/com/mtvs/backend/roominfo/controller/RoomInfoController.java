@@ -20,7 +20,7 @@ public class RoomInfoController {
     }
 
     @GetMapping
-    public ResponseEntity<RoomInfo> getRoomInfoByUserId(String userId) {
+    public ResponseEntity<RoomInfo> getRoomInfoByUserId(@RequestParam("userId") String userId) {
         return ResponseEntity.ok(roomInfoServiceImpl.getRoomInfoByUserId(userId));
     }
 
