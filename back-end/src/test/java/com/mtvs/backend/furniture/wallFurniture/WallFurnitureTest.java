@@ -1,12 +1,13 @@
 package com.mtvs.backend.furniture.wallFurniture;
 
+import com.mtvs.backend.furniture.wallfurniture.domain.WallFurniPosType;
 import com.mtvs.backend.furniture.wallfurniture.domain.WallFurniture;
 import com.mtvs.backend.furniture.wallfurniture.dto.WallFurnitureRegisterDTO;
 import com.mtvs.backend.furniture.wallfurniture.dto.WallFurnitureUpdateDTO;
 import com.mtvs.backend.furniture.wallfurniture.repository.WallFurnitureRepository;
 import com.mtvs.backend.furniture.wallfurniture.service.WallFurnitureServiceImpl;
 import com.mtvs.backend.user.domain.User;
-import com.mtvs.backend.user.dto.UserDTO;
+import com.mtvs.backend.user.dto.UserRegisterDTO;
 import com.mtvs.backend.user.repository.UserRepository;
 import com.mtvs.backend.user.service.UserServiceImpl;
 import jakarta.persistence.EntityManager;
@@ -41,34 +42,30 @@ public class WallFurnitureTest {
 
     @BeforeEach
     void beforeEach() {
-        wallFurnitureRepository.deleteAll();
         userRepository.deleteAll();
+        wallFurnitureRepository.deleteAll();
 
         em.createNativeQuery("ALTER TABLE user AUTO_INCREMENT = 1").executeUpdate();
         em.createNativeQuery("ALTER TABLE wall_furniture AUTO_INCREMENT = 1").executeUpdate();
         em.flush();
 
         if(userRepository.count() <= 0){
-            userServiceImpl.registerUser(new User("user1", "1234", "user1", "2001-11-23", "man"));
-            userServiceImpl.registerUser(new User("user2", "1234", "user2", "2001-11-23", "woman"));
-            userServiceImpl.registerUser(new User("user3", "1234", "user3", "2001-11-23", "man"));
+            userServiceImpl.registerUser(new UserRegisterDTO("user1", "1234", "user1", "2001-11-23", "man"));
+            userServiceImpl.registerUser(new UserRegisterDTO("user2", "1234", "user2", "2001-11-23", "woman"));
+            userServiceImpl.registerUser(new UserRegisterDTO("user3", "1234", "user3", "2001-11-23", "man"));
         }
 
         if(wallFurnitureRepository.count() <= 0){
-            User foundUser1 = userServiceImpl.getUserByUserId("user1");
-            User foundUser2 = userServiceImpl.getUserByUserId("user2");
-            User foundUser3 = userServiceImpl.getUserByUserId("user3");
-
-            wallFurnitureServiceImpl.registerWallFurniture(new WallFurnitureRegisterDTO("Shelf", "Bookshelf", 10, true, foundUser1));
-            wallFurnitureServiceImpl.registerWallFurniture(new WallFurnitureRegisterDTO("Cabinet", "Kitchen Cabinet", 15, false, foundUser1));
-            wallFurnitureServiceImpl.registerWallFurniture(new WallFurnitureRegisterDTO("Mirror", "Wall Mirror", 7, true, foundUser1));
-            wallFurnitureServiceImpl.registerWallFurniture(new WallFurnitureRegisterDTO("Artwork", "Painting", 20, true, foundUser1));
-            wallFurnitureServiceImpl.registerWallFurniture(new WallFurnitureRegisterDTO("Rack", "Coat Rack", 5, false, foundUser2));
-            wallFurnitureServiceImpl.registerWallFurniture(new WallFurnitureRegisterDTO("Shelf", "Floating Shelf", 12, true, foundUser2)); // 같은 카테고리 (Shelf)
-            wallFurnitureServiceImpl.registerWallFurniture(new WallFurnitureRegisterDTO("Cabinet", "Bathroom Cabinet", 18, false,foundUser3)); // 같은 카테고리 (Cabinet)
-            wallFurnitureServiceImpl.registerWallFurniture(new WallFurnitureRegisterDTO("Artwork", "Wall Art", 22, true,foundUser3)); // 같은 카테고리 (Artwork)
-            wallFurnitureServiceImpl.registerWallFurniture(new WallFurnitureRegisterDTO("Mirror", "Full-Length Mirror", 8, true,foundUser3)); // 같은 카테고리 (Mirror)
-            wallFurnitureServiceImpl.registerWallFurniture(new WallFurnitureRegisterDTO("Rack", "Shoe Rack", 3, true,foundUser3)); // 같은 카테고리 (Rack)
+            wallFurnitureServiceImpl.registerWallFurniture(new WallFurnitureRegisterDTO("Shelf", "Bookshelf", WallFurniPosType.NONE, true, "user1"));
+            wallFurnitureServiceImpl.registerWallFurniture(new WallFurnitureRegisterDTO("Cabinet", "Kitchen Cabinet", WallFurniPosType.RIGHT_TWO, false, "user1"));
+            wallFurnitureServiceImpl.registerWallFurniture(new WallFurnitureRegisterDTO("Mirror", "Wall Mirror", WallFurniPosType.RIGHT_ONE, true, "user1"));
+            wallFurnitureServiceImpl.registerWallFurniture(new WallFurnitureRegisterDTO("Artwork", "Painting", WallFurniPosType.LEFT_TWO, true, "user1"));
+            wallFurnitureServiceImpl.registerWallFurniture(new WallFurnitureRegisterDTO("Rack", "Coat Rack", WallFurniPosType.RIGHT_TWO, false, "user2"));
+            wallFurnitureServiceImpl.registerWallFurniture(new WallFurnitureRegisterDTO("Shelf", "Floating Shelf", WallFurniPosType.NONE, true, "user2"));
+            wallFurnitureServiceImpl.registerWallFurniture(new WallFurnitureRegisterDTO("Cabinet", "Bathroom Cabinet", WallFurniPosType.LEFT_TWO, false,"user2"));
+            wallFurnitureServiceImpl.registerWallFurniture(new WallFurnitureRegisterDTO("Artwork", "Wall Art", WallFurniPosType.LEFT_TWO, true,"user3"));
+            wallFurnitureServiceImpl.registerWallFurniture(new WallFurnitureRegisterDTO("Mirror", "Full-Length Mirror", WallFurniPosType.RIGHT_ONE, true,"user3"));
+            wallFurnitureServiceImpl.registerWallFurniture(new WallFurnitureRegisterDTO("Rack", "Shoe Rack", WallFurniPosType.NONE, true,"user3"));
         }
     }
 
@@ -106,7 +103,7 @@ public class WallFurnitureTest {
     void updateWallFurnitureTest() {
         List<WallFurniture> allWallFurnitureList = wallFurnitureServiceImpl.getAllWallFurniture();
         WallFurniture lastWallFurniture = allWallFurnitureList.get(0);
-        WallFurnitureUpdateDTO wfuDTO = new WallFurnitureUpdateDTO(lastWallFurniture.getId(), "newCategory1", "newFurniName1", 100, true);
+        WallFurnitureUpdateDTO wfuDTO = new WallFurnitureUpdateDTO(lastWallFurniture.getId(), "newCategory1", "newFurniName1", WallFurniPosType.NONE, true);
         wallFurnitureServiceImpl.updateWallFurniture(wfuDTO);
         Assertions.assertThat(wallFurnitureServiceImpl.getAllWallFurniture().get(0).getFurniCategory()).isEqualTo("newCategory1");
     }
