@@ -28,15 +28,10 @@ public class UserController {
         return ResponseEntity.status(HttpStatus.CREATED).body(urDTO.get(0));
     }
 
-    @GetMapping("/{userId}")
-    public ResponseEntity<User> getUser(@PathVariable("userId") String userId){
+    @GetMapping
+    public ResponseEntity<User> getUser(@RequestParam("userId") String userId){
         User foundUser = userServiceImpl.getUserByUserId(userId);
         return ResponseEntity.ok(foundUser);
-    }
-
-    @GetMapping("/temp")
-    public String getTempUser(){
-        return "success";
     }
 
     @PatchMapping
@@ -45,8 +40,8 @@ public class UserController {
         return ResponseEntity.ok(uuDTO);
     }
 
-    @DeleteMapping("/{userId}")
-    public ResponseEntity<User> deleteUser(@PathVariable("userId") String userId){
+    @DeleteMapping
+    public ResponseEntity<User> deleteUser(@RequestParam("userId") String userId){
         userServiceImpl.deleteUserByUserId(userId);
         return ResponseEntity.noContent().build();
     }

@@ -32,7 +32,14 @@ public class UserServiceImpl implements UserService{
 
     public void registerUser(UserRegisterDTO urDTO) {
         User newUser = new User(urDTO.getUserId(), urDTO.getUserPassword(), urDTO.getUserNickname(), urDTO.getBirthday(), urDTO.getGender());
-        userRepository.save(newUser);
+        User foundUser = getUserByUserId(urDTO.getUserId());
+        if(foundUser != null){
+            UserUpdateDTO uuDTO = new UserUpdateDTO(foundUser.getId(), urDTO.getUserId(), urDTO.getUserPassword(), urDTO.getUserNickname(), urDTO.getBirthday(), urDTO.getGender());
+            updateUser(uuDTO);
+        }
+        else {
+            userRepository.save(newUser);
+        }
     }
 
     @Override
