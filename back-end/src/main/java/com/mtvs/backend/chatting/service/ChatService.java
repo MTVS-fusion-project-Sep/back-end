@@ -27,9 +27,11 @@ public class ChatService {
         return chatRepository.findById(roomId);
     }
 
-    public ChatRoom createRoom(String name) {
+    public List<ChatRoom> findRoomByCategory(String category) { return chatRepository.findByCategory(category); }
+
+    public ChatRoom createRoom(String name, String category, int maxCnt) {
         String roomId = UUID.randomUUID().toString();
-        ChatRoom chatRoom = ChatRoom.of(roomId, name);
+        ChatRoom chatRoom = ChatRoom.of(roomId, name, category, maxCnt);
         chatRepository.save(roomId, chatRoom);
         return chatRoom;
     }
@@ -43,6 +45,7 @@ public class ChatService {
 
         if (isEnterRoom(chatMessage)) {
             room.join(session);
+            room.setHeadCnt(room.getHeadCnt() + 1);
             chatMessage.setMessage(chatMessage.getSender() + "님 환영합니다.");
         }
 
@@ -57,7 +60,7 @@ public class ChatService {
 
     public void removeSession(WebSocketSession session) {
         chatRepository.findAll().forEach(chatRoom -> {
-            chatRoom.remove(session);
+            if(chatRoom.remove(session)) chatRoom.setHeadCnt(chatRoom.getHeadCnt() - 1);
         });
     }
 }

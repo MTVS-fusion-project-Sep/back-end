@@ -14,13 +14,23 @@ import java.util.Set;
 public class ChatRoom {
     private final String roomId;
     private final String name;
+    private final String category;
+    private int headCnt;
+    private final int maxCnt;
     @JsonIgnore
     private final Set<WebSocketSession> sessions = new HashSet<>();
 
     @Builder
-    public ChatRoom(String roomId, String name) {
+    public ChatRoom(String roomId, String name, String category, int maxCnt) {
         this.roomId = roomId;
         this.name = name;
+        this.category = category;
+        this.headCnt = 0; // 채팅방 생성시 기존 인원은 무조건 0명임
+        this.maxCnt = maxCnt;
+    }
+
+    public void setHeadCnt(int headCnt) {
+        this.headCnt = headCnt;
     }
 
     public void sendMessage(TextMessage message) {
@@ -41,12 +51,14 @@ public class ChatRoom {
         sessions.add(session);
     }
 
-    public void remove(WebSocketSession session) {sessions.remove(session);}
+    public boolean remove(WebSocketSession session) { return sessions.remove(session); }
 
-    public static ChatRoom of(String roomId, String name) {
+    public static ChatRoom of(String roomId, String name, String category, int maxCnt) {
         return ChatRoom.builder()
                 .roomId(roomId)
                 .name(name)
+                .category(category)
+                .maxCnt(maxCnt)
                 .build();
     }
 }
