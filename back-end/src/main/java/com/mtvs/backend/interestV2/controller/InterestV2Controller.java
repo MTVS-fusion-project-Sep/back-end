@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/interestv2")
+@RequestMapping("/interest-v2")
 public class InterestV2Controller {
 
     private final InterestV2Service interestV2Service;
@@ -26,14 +26,17 @@ public class InterestV2Controller {
         return ResponseEntity.ok(interestV2Service.registInterestV2(interestV2RegisterDTO));
     }
 
+    @GetMapping
     ResponseEntity<List<InterestV2>> getInterestV2ListByUserId(@RequestParam String userId) {
         return ResponseEntity.ok(interestV2Service.getInterestV2ByUserId(userId));
     }
 
+    @PatchMapping
     ResponseEntity<InterestV2UpdateDTO> updateInterestV2(@RequestBody InterestV2UpdateDTO interestV2UpdateDTO) {
         return ResponseEntity.ok(interestV2Service.updateInterestV2(interestV2UpdateDTO));
     }
 
+    @DeleteMapping
     ResponseEntity<?> deleteInterestV2(@RequestParam Long interestId) {
         interestV2Service.deleteInterestV2(interestId);
         return ResponseEntity.noContent().build();
