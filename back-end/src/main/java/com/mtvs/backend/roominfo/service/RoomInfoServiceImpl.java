@@ -24,7 +24,14 @@ public class RoomInfoServiceImpl implements RoomInfoService{
     @Override
     public RoomInfo registerRoomInfo(RoomInfoRegisterDTO rirDTO) {
         RoomInfo roomInfo = new RoomInfo(rirDTO.getWallIndex(), rirDTO.getWallIndex(), rirDTO.getUserId());
-        return roomInfoRepository.save(roomInfo);
+        RoomInfo foundRoomInfo = getRoomInfoByUserId(rirDTO.getUserId());
+        if(foundRoomInfo != null){
+            RoomInfoUpdateDTO riuDTO = new RoomInfoUpdateDTO(foundRoomInfo.getId(), rirDTO.getWallIndex(), rirDTO.getTileIndex());
+            return updateRoomInfo(riuDTO);
+        }
+        else {
+            return roomInfoRepository.save(roomInfo);
+        }
     }
 
     @Override
