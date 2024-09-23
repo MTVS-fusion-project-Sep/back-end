@@ -31,4 +31,9 @@ public class ChatController {
     public ChatRoom getRoom(@PathVariable String roomId) {
         return chatService.findRoomById(roomId);
     }
+
+    @DeleteMapping("/{roomId}")
+    public void deleteRoom(@PathVariable String roomId) {
+        chatService.deleteRoomById(roomId);
+    }
 }
