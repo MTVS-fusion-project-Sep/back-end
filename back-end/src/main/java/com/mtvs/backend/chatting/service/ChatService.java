@@ -63,4 +63,8 @@ public class ChatService {
             if(chatRoom.remove(session)) chatRoom.setHeadCnt(chatRoom.getHeadCnt() - 1);
         });
     }
+
+    public void deleteRoomById(String roomId) {
+        chatRepository.deleteById(roomId);
+    }
 }
