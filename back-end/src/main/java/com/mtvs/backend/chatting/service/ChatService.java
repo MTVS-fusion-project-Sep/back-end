@@ -3,7 +3,9 @@ package com.mtvs.backend.chatting.service;
 import com.mtvs.backend.chatting.config.Util;
 import com.mtvs.backend.chatting.domain.ChatMessage;
 import com.mtvs.backend.chatting.domain.ChatRoom;
+import com.mtvs.backend.chatting.repository.ChatMessageRepository;
 import com.mtvs.backend.chatting.repository.ChatRepository;
+import com.mtvs.backend.chatting.repository.ChatRoomRepository;
 import com.mtvs.backend.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -20,6 +22,8 @@ import java.util.UUID;
 public class ChatService {
     private final ChatRepository chatRepository;
     private final UserRepository userRepository;
+    private final ChatRoomRepository chatRoomRepository;
+    private final ChatMessageRepository chatMessageRepository;
 
     public List<ChatRoom> findAll() {
         return chatRepository.findAll();
@@ -35,6 +39,7 @@ public class ChatService {
         String roomId = UUID.randomUUID().toString();
         ChatRoom chatRoom = ChatRoom.of(roomId, name, category, maxCnt);
         chatRepository.save(roomId, chatRoom);
+        chatRoomRepository.save(chatRoom);
         return chatRoom;
     }
 
@@ -52,6 +57,7 @@ public class ChatService {
         }
 
         TextMessage textMessage = Util.Chat.resolveTextMessage(chatMessage);
+        chatMessageRepository.save(chatMessage);
         System.out.println("textMessage = " + textMessage);
         room.sendMessage(textMessage);
     }
