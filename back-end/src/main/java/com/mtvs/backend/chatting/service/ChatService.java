@@ -4,6 +4,7 @@ import com.mtvs.backend.chatting.config.Util;
 import com.mtvs.backend.chatting.domain.ChatMessage;
 import com.mtvs.backend.chatting.domain.ChatRoom;
 import com.mtvs.backend.chatting.repository.ChatRepository;
+import com.mtvs.backend.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -18,6 +19,7 @@ import java.util.UUID;
 @Service
 public class ChatService {
     private final ChatRepository chatRepository;
+    private final UserRepository userRepository;
 
     public List<ChatRoom> findAll() {
         return chatRepository.findAll();
@@ -46,7 +48,7 @@ public class ChatService {
         if (isEnterRoom(chatMessage)) {
             room.join(session);
             room.setHeadCnt(room.getHeadCnt() + 1);
-            chatMessage.setMessage(chatMessage.getSender() + "님 환영합니다.");
+            chatMessage.setMessage(userRepository.findByUserId(chatMessage.getUserId()).getUserNickname() + "님 환영합니다.");
         }
 
         TextMessage textMessage = Util.Chat.resolveTextMessage(chatMessage);

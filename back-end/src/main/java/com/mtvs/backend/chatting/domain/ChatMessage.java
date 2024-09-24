@@ -1,18 +1,26 @@
 package com.mtvs.backend.chatting.domain;
 
+import jakarta.persistence.*;
 import lombok.*;
 
+import java.time.LocalDateTime;
+
 @Getter @Setter
-@AllArgsConstructor
+@Entity(name = "ChatMessage")
+@Table(name = "chatmessage")
 @NoArgsConstructor
-@Builder
 public class ChatMessage {
     public enum MessageType {
         ENTER, TALK, QUIT
     }
 
-    private MessageType messageType;
+    @Id
+    @Column(name = "MESSAGE_ID")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long messageId;
     private String roomId;
-    private String sender;
+    private MessageType messageType;
+    private String userId;
     private String message;
+    private LocalDateTime sentTime;
 }
