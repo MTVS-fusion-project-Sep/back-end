@@ -56,8 +56,8 @@ public class ChatService {
             chatMessage.setMessage(userRepository.findByUserId(chatMessage.getUserId()).getUserNickname() + "님 환영합니다.");
         }
 
-        TextMessage textMessage = Util.Chat.resolveTextMessage(chatMessage);
         chatMessageRepository.save(chatMessage);
+        TextMessage textMessage = Util.Chat.resolveTextMessage(chatMessage);
         System.out.println("textMessage = " + textMessage);
         room.sendMessage(textMessage);
     }
