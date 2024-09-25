@@ -7,6 +7,7 @@ import com.mtvs.backend.chatting.repository.ChatMessageRepository;
 import com.mtvs.backend.chatting.repository.ChatRepository;
 import com.mtvs.backend.chatting.repository.ChatRoomRepository;
 import com.mtvs.backend.user.repository.UserRepository;
+import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -20,10 +21,17 @@ import java.util.UUID;
 @Slf4j
 @Service
 public class ChatService {
-    private final ChatRepository chatRepository;
     private final UserRepository userRepository;
+    private final ChatRepository chatRepository;
     private final ChatRoomRepository chatRoomRepository;
     private final ChatMessageRepository chatMessageRepository;
+
+    @PostConstruct
+    public void init() {
+        List<ChatRoom> chatRooms = chatRoomRepository.findAll();
+        chatRooms.forEach(chatRoom -> chatRepository.save(chatRoom.getRoomId(), chatRoom));
+        System.out.println("Default chat room created at startup.");
+    }
 
     public List<ChatRoom> findAll() {
         return chatRepository.findAll();
