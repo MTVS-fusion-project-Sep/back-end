@@ -5,6 +5,6 @@ import com.mtvs.backend.chatroominfo.domain.ChatEntryCompositeKey;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface ChatEntryRepository extends JpaRepository<ChatEntry, ChatEntryCompositeKey> {
-    ChatEntry getChatEntriesByChatEntryCompositeKey(ChatEntryCompositeKey chatEntryCompositeKey);
+    ChatEntry getChatEntryByChatEntryCompositeKey(ChatEntryCompositeKey chatEntryCompositeKey);
     boolean existsChatEntryByChatEntryCompositeKey(ChatEntryCompositeKey chatEntryCompositeKey);
 }
