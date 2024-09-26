@@ -38,15 +38,8 @@ public class ChatRedisService {
     }
 
     // Redis에서 특정 채팅방의 모든 메시지 가져오기
-    public List<ChatMessage> getChatMessages(String roomId) {
-        String key = REDIS_KEY_PREFIX + roomId;
-        List<Object> redisMessages = redisTemplate.opsForList().range(key, 0, -1);
-        return redisMessages.stream()
-                .map(message -> objectMapper.convertValue(message, ChatMessage.class))
-                .collect(Collectors.toList());
-    }
-
     public List<ChatMessage> getChatMessagesByAllPath(String path) {
+        // 넘어오는 path는 chat:room:{roomId} 형식 이어야 한다
         List<Object> redisMessages = redisTemplate.opsForList().range(path, 0, -1);
         return redisMessages.stream()
                 .map(message -> objectMapper.convertValue(message, ChatMessage.class))
@@ -54,14 +47,8 @@ public class ChatRedisService {
     }
 
     // Redis에서 특정 채팅방의 메시지 삭제
-    public void clearChatMessages(String roomId) {
-        String key = REDIS_KEY_PREFIX + roomId;
-        redisTemplate.delete(key);
-    }
-
-    // Redis에서 특정 채팅방의 메시지 삭제
     public void clearChatMessagesByAllPath(String path) {
-        redisTemplate.delete(path);
+        redisTemplate.delete(path); // 넘어오는 path는 chat:room:{roomId} 형식 이어야 한다
     }
 
     // Redis에 저장된 모든 채팅방 ID를 가져오는 로직
