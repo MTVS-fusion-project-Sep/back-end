@@ -14,6 +14,6 @@ public class ChatEntryService {
     private final ChatEntryRepository chatEntryRepository;
 
     public ChatEntry getChatEntryLogsByRoomIdAndUserId(String roomId, String userId) {
-        return chatEntryRepository.getChatEntriesByChatEntryCompositeKey(new ChatEntryCompositeKey(roomId, userId));
+        return chatEntryRepository.getChatEntryByChatEntryCompositeKey(new ChatEntryCompositeKey(roomId, userId));
     };
 }
