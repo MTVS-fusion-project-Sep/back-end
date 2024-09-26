@@ -1,6 +1,7 @@
 package com.mtvs.backend.user.domain;
 
 import com.mtvs.backend.interest.domain.Interest;
+import com.mtvs.backend.chatroominfo.domain.ChatRoomInfo;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -39,6 +40,9 @@ public class User {
             inverseJoinColumns = @JoinColumn(name = "interest_id")
     )
     private List<Interest> interestList = new ArrayList<>();
+
+    @ElementCollection
+    private List<ChatRoomInfo> userChatRoomInfoList = new ArrayList<>();
 
 
     public User() {}
