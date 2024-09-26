@@ -1,8 +1,8 @@
 package com.mtvs.backend.chatting.service;
 
-import com.mtvs.backend.chatroominfo.domain.ChatEntry;
-import com.mtvs.backend.chatroominfo.domain.ChatEntryCompositeKey;
-import com.mtvs.backend.chatroominfo.repository.ChatEntryRepository;
+import com.mtvs.backend.chatentry.domain.ChatEntry;
+import com.mtvs.backend.chatentry.domain.ChatEntryCompositeKey;
+import com.mtvs.backend.chatentry.repository.ChatEntryRepository;
 import com.mtvs.backend.chatting.config.Util;
 import com.mtvs.backend.chatting.domain.ChatMessage;
 import com.mtvs.backend.chatting.domain.ChatRoom;
@@ -17,7 +17,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
 
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
@@ -28,8 +27,8 @@ public class ChatService {
     private final UserRepository userRepository;
     private final ChatRepository chatRepository;
     private final ChatRoomRepository chatRoomRepository;
-    private final ChatMessageRepository chatMessageRepository;
     private final ChatEntryRepository chatEntryRepository;
+    private final ChatRedisService chatRedisService;
 
     @PostConstruct
     public void init() {
@@ -72,7 +71,7 @@ public class ChatService {
             chatMessage.setMessage(userRepository.findByUserId(chatMessage.getUserId()).getUserNickname() + "님 환영합니다.");
         }
 
-        chatMessageRepository.save(chatMessage);
+        chatRedisService.saveChatMessage(chatMessage);
         TextMessage textMessage = Util.Chat.resolveTextMessage(chatMessage);
         System.out.println("textMessage = " + textMessage);
         room.sendMessage(textMessage);

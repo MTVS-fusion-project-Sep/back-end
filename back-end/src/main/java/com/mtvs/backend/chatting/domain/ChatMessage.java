@@ -9,6 +9,7 @@ import java.time.LocalDateTime;
 @Entity(name = "ChatMessage")
 @Table(name = "chatmessage")
 @NoArgsConstructor
+@ToString
 public class ChatMessage {
     public enum MessageType {
         ENTER, TALK

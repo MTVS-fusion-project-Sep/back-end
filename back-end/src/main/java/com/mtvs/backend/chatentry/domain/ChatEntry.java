@@ -1,4 +1,4 @@
-package com.mtvs.backend.chatroominfo.domain;
+package com.mtvs.backend.chatentry.domain;
 
 import jakarta.persistence.*;
 import lombok.Getter;
