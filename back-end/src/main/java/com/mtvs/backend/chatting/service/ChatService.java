@@ -65,10 +65,13 @@ public class ChatService {
         if(userRepository.findByUserId(chatMessage.getUserId()) == null) throw new IllegalArgumentException("잘못된 userId로 채팅중");
 
         if (isEnterRoom(chatMessage)) {
-            if (!isEnterRoomFirst(chatMessage)) chatEntryRepository.save(new ChatEntry(new ChatEntryCompositeKey(chatMessage.getRoomId(), chatMessage.getUserId())));
             room.join(session);
             room.setHeadCnt(room.getHeadCnt() + 1);
-            chatMessage.setMessage(userRepository.findByUserId(chatMessage.getUserId()).getUserNickname() + "님 환영합니다.");
+
+            if (!isEnterRoomFirst(chatMessage)) {
+                chatEntryRepository.save(new ChatEntry(new ChatEntryCompositeKey(chatMessage.getRoomId(), chatMessage.getUserId())));
+                chatMessage.setMessage(userRepository.findByUserId(chatMessage.getUserId()).getUserNickname() + "님 환영합니다.");
+            } else return; // 이전에 방에 들어갔던 이력이 있으면 굳이 환영 메세지를 보내지 않음
         }
 
         chatRedisService.saveChatMessage(chatMessage);
