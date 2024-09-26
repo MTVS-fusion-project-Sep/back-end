@@ -20,8 +20,7 @@ public class ChatMessageService {
         return chatMessageRepository.findChatMessagesByRoomId(roomId);
     }
 
-    public List<ChatMessage> getChatMessagesByUserIdAndRoomId(String userId, String roomId) {
-        return chatMessageRepository.findChatMessagesByRoomIdAndSentTimeAfter(roomId, LocalDateTime.now());
-        // user에 저장된 localDateTime을 2번째파라미터로 넣어줘야 함
+    public List<ChatMessage> getChatMessagesByRoomIdAfterEntryTime(String roomId, LocalDateTime entryTime) {
+        return chatMessageRepository.findChatMessagesByRoomIdAndSentTimeAfter(roomId, entryTime);
     }
 }

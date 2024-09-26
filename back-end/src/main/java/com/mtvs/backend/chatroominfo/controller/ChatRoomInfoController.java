@@ -1,25 +1,22 @@
 package com.mtvs.backend.chatroominfo.controller;
 
-import com.mtvs.backend.chatroominfo.domain.ChatRoomInfo;
-import com.mtvs.backend.chatroominfo.dto.ChatRoomInfoRegisterDTO;
-import com.mtvs.backend.chatroominfo.service.ChatRoomInfoServiceImpl;
+import com.mtvs.backend.chatroominfo.domain.ChatEntry;
+import com.mtvs.backend.chatroominfo.service.ChatEntryService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
-@RequestMapping("/user-chatroom")
+@RequestMapping("/chat/entry")
 @RequiredArgsConstructor
 public class ChatRoomInfoController {
+    private final ChatEntryService chatEntryService;
 
-    private final ChatRoomInfoServiceImpl userChatRoomInfoService;
-
-    @PostMapping
-    public ResponseEntity<ChatRoomInfo> enterRoom(@RequestBody ChatRoomInfoRegisterDTO chatRoomInfoRegisterDTO) {
-        return ResponseEntity.ok(userChatRoomInfoService.enterChatRoom(chatRoomInfoRegisterDTO));
+    @GetMapping
+    public ResponseEntity<ChatEntry> getChatEntryLogByRoomIdAndUserId
+            (@RequestParam String roomId, @RequestParam String userId) {
+        return ResponseEntity.ok(chatEntryService.getChatEntryLogsByRoomIdAndUserId(roomId, userId));
     }
-
 }
