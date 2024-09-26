@@ -1,8 +1,8 @@
-package com.mtvs.backend.chatroominfo.service;
+package com.mtvs.backend.chatentry.service;
 
-import com.mtvs.backend.chatroominfo.domain.ChatEntry;
-import com.mtvs.backend.chatroominfo.domain.ChatEntryCompositeKey;
-import com.mtvs.backend.chatroominfo.repository.ChatEntryRepository;
+import com.mtvs.backend.chatentry.domain.ChatEntry;
+import com.mtvs.backend.chatentry.domain.ChatEntryCompositeKey;
+import com.mtvs.backend.chatentry.repository.ChatEntryRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -16,4 +16,8 @@ public class ChatEntryService {
     public ChatEntry getChatEntryLogsByRoomIdAndUserId(String roomId, String userId) {
         return chatEntryRepository.getChatEntryByChatEntryCompositeKey(new ChatEntryCompositeKey(roomId, userId));
     };
+
+    public List<ChatEntry> getChatEntryLogsByUserId(String userId) {
+        return chatEntryRepository.getChatEntriesByChatEntryCompositeKey_UserId(userId);
+    }
 }
