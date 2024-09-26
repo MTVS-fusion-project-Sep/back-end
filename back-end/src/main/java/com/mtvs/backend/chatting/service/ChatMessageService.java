@@ -18,7 +18,7 @@ public class ChatMessageService {
     private final ChatMessageRepository chatMessageRepository;
     private final ChatEntryRepository chatEntryRepository;
 
-    private static final  int PAGE_SIZE = 50;
+    private static final int PAGE_SIZE = 15;
     private final ChatRedisService chatRedisService;
 
     public ChatMessageService(ChatMessageRepository chatMessageRepository, ChatEntryRepository chatEntryRepository, ChatRedisService chatRedisService) {
