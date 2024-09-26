@@ -1,5 +1,8 @@
 package com.mtvs.backend.chatting.service;
 
+import com.mtvs.backend.chatroominfo.domain.ChatEntry;
+import com.mtvs.backend.chatroominfo.domain.ChatEntryCompositeKey;
+import com.mtvs.backend.chatroominfo.repository.ChatEntryRepository;
 import com.mtvs.backend.chatting.config.Util;
 import com.mtvs.backend.chatting.domain.ChatMessage;
 import com.mtvs.backend.chatting.domain.ChatRoom;
@@ -14,6 +17,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
@@ -25,6 +29,7 @@ public class ChatService {
     private final ChatRepository chatRepository;
     private final ChatRoomRepository chatRoomRepository;
     private final ChatMessageRepository chatMessageRepository;
+    private final ChatEntryRepository chatEntryRepository;
 
     @PostConstruct
     public void init() {
@@ -58,7 +63,10 @@ public class ChatService {
     ) {
         ChatRoom room = findRoomById(roomId);
 
+        if(userRepository.findByUserId(chatMessage.getUserId()) == null) throw new IllegalArgumentException("잘못된 userId로 채팅중");
+
         if (isEnterRoom(chatMessage)) {
+            if (!isEnterRoomFirst(chatMessage)) chatEntryRepository.save(new ChatEntry(new ChatEntryCompositeKey(chatMessage.getRoomId(), chatMessage.getUserId())));
             room.join(session);
             room.setHeadCnt(room.getHeadCnt() + 1);
             chatMessage.setMessage(userRepository.findByUserId(chatMessage.getUserId()).getUserNickname() + "님 환영합니다.");
@@ -72,6 +80,10 @@ public class ChatService {
 
     private boolean isEnterRoom(ChatMessage chatMessage) {
         return chatMessage.getMessageType().equals(ChatMessage.MessageType.ENTER);
+    }
+
+    private boolean isEnterRoomFirst(ChatMessage chatMessage) {
+        return chatEntryRepository.existsChatEntryByChatEntryCompositeKey(new ChatEntryCompositeKey(chatMessage.getRoomId(), chatMessage.getUserId()));
     }
 
     public void removeSession(WebSocketSession session) {

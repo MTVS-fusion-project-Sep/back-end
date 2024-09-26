@@ -2,6 +2,7 @@ package com.mtvs.backend.chatting.config;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.mtvs.backend.chatting.domain.ChatMessage;
 import org.springframework.web.socket.TextMessage;
 
@@ -9,7 +10,7 @@ import java.time.LocalDateTime;
 
 public class Util {
     public static class Chat {
-        private static final ObjectMapper objectMapper = new ObjectMapper();
+        private static final ObjectMapper objectMapper = new ObjectMapper().registerModule(new JavaTimeModule());
 
         public static TextMessage resolveTextMessage(ChatMessage message) {
             try {
