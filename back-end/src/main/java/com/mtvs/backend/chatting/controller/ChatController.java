@@ -32,8 +32,8 @@ public class ChatController {
     public List<ChatRoom> getByCategory(@PathVariable String category) { return chatService.findRoomByCategory(category); }
 
     @GetMapping("/log")
-    public List<ChatMessage> getChatMessages(@RequestParam String roomId, @RequestParam LocalDateTime entryTime) {
-        return chatMessageService.getChatMessagesByRoomIdAfterEntryTime(roomId, entryTime);
+    public List<ChatMessage> getChatMessages(@RequestParam String roomId, @RequestParam String userId) {
+        return chatMessageService.getChatMessagesByRoomIdAfterEntryTime(roomId, userId);
     }
 
     @PostMapping
