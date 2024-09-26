@@ -8,9 +8,12 @@ import com.mtvs.backend.chatting.repository.ChatMessageRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class ChatMessageService {
@@ -42,10 +45,17 @@ public class ChatMessageService {
 
         // 3. Redis에서 가져온 메시지가 충분하지 않다면 MySQL에서 추가로 가져옴
         if (redisMessages.size() < PAGE_SIZE) {
-            Pageable pageable = PageRequest.of(page, PAGE_SIZE - redisMessages.size());  // 남은 메시지만큼 가져오기
+            // 남은 메시지 수만큼 DB에서 가져오기 (내림차순으로 최신 메시지부터)
+            Pageable pageable = PageRequest.of(page, PAGE_SIZE - redisMessages.size(), Sort.by(Sort.Direction.DESC, "sentTime"));
             Page<ChatMessage> dbMessagesPage = chatMessageRepository
                     .findChatMessagesByRoomIdAndSentTimeAfter(roomId, chatEntry.getEntryTime(), pageable);
-            redisMessages.addAll(0, dbMessagesPage.getContent());  // Page 객체에서 실제 메시지 리스트 추가
+
+            List<ChatMessage> dbMessages = dbMessagesPage.getContent()
+                    .stream()
+                    .sorted(Comparator.comparing(ChatMessage::getSentTime)) // 오름차순 정렬
+                    .toList();
+
+            redisMessages.addAll(0, dbMessages);  // Page 객체에서 실제 메시지 리스트 추가
         }
 
         return redisMessages;

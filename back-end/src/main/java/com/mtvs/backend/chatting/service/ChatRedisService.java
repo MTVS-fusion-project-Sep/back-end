@@ -22,10 +22,14 @@ public class ChatRedisService {
     // Redis에서 페이징 처리된 메시지를 가져옴
     public List<ChatMessage> getMessagesFromRedis(String roomId, int page, int pageSize) {
         String redisKey = REDIS_KEY_PREFIX + roomId;
-        long start = page * pageSize;
-        long end = start + pageSize - 1;
+        long totalMessages = redisTemplate.opsForList().size(redisKey);  // Redis 리스트의 총 메시지 수
 
-        List<Object> redisMessages = redisTemplate.opsForList().range(redisKey, start, end); // Redis에서 Object로 데이터 조회
+        // 최신 메시지부터 가져오기 위해 인덱스를 뒤에서부터 계산
+        long end = totalMessages - (page * pageSize) - 1; // 현재 페이지의 마지막 인덱스
+        long start = Math.max(end - pageSize + 1, 0);     // 현재 페이지의 첫 번째 인덱스 (음수 방지)
+
+        List<Object> redisMessages = redisTemplate.opsForList().range(redisKey, start, end); // 최신 메시지 범위로 가져옴
+
         return redisMessages.stream()
                 .map(message -> objectMapper.convertValue(message, ChatMessage.class)) // Object to ChatMessage 변환
                 .collect(Collectors.toList());
