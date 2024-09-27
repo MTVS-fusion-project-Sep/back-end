@@ -14,4 +14,5 @@ public interface ChatMessageRepository extends JpaRepository<ChatMessage, Long> 
     List<ChatMessage> findChatMessagesByRoomId(String roomId);
     List<ChatMessage> findChatMessagesByRoomIdAndSentTimeAfter(String roomId, LocalDateTime sentTime);
     Page<ChatMessage> findChatMessagesByRoomIdAndSentTimeAfter(String roomId, LocalDateTime sentTime, Pageable pageable);
+    void deleteChatMessagesByRoomId(String roomId);
 }

@@ -29,6 +29,8 @@ public class ChatService {
     private final ChatRoomRepository chatRoomRepository;
     private final ChatEntryRepository chatEntryRepository;
     private final ChatRedisService chatRedisService;
+    private final ChatMessageService chatMessageService;
+    private final ChatMessageRepository chatMessageRepository;
 
     @PostConstruct
     public void init() {
@@ -61,6 +63,9 @@ public class ChatService {
             ChatMessage chatMessage
     ) {
         ChatRoom room = findRoomById(roomId);
+
+        if(room == null)
+            throw new IllegalArgumentException("잘못된 roomId로 채팅중");
 
         if(userRepository.findByUserId(chatMessage.getUserId()) == null)
             throw new IllegalArgumentException("잘못된 userId로 채팅중");
@@ -99,5 +104,7 @@ public class ChatService {
 
     public void deleteRoomById(String roomId) {
         chatRepository.deleteById(roomId);
+        chatRedisService.clearChatMessagesByAllPath("chat:room:" + roomId);
+        chatMessageRepository.deleteChatMessagesByRoomId(roomId);
     }
 }
